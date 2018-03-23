@@ -9,6 +9,11 @@ class DrawerWidget extends StatelessWidget {
       route: '/',
       title: 'Home',
     ),
+    new Page(
+      icon: new Icon(Icons.reorder),
+      route: '/lines',
+      title: 'Lines',
+    ),
   ];
 
   @override
