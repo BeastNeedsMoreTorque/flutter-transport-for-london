@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flux/flutter_flux.dart';
 import 'package:transport_for_london/models/line.dart';
 import 'package:transport_for_london/services/line.dart';
+import 'package:transport_for_london/stores/line.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
 import 'package:transport_for_london/widgets/line_list_tile.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
@@ -10,8 +12,17 @@ class LinesPage extends StatefulWidget {
   _LinesPageState createState() => new _LinesPageState();
 }
 
-class _LinesPageState extends State<LinesPage> {
+class _LinesPageState extends State<LinesPage>
+    with StoreWatcherMixin<LinesPage> {
   LineService _lineService = new LineService();
+  LineStore _lineStore;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _lineStore = listenToStore(lineStoreToken);
+  }
 
   AppBar _buildAppBar() {
     return new AppBar(
@@ -27,9 +38,16 @@ class _LinesPageState extends State<LinesPage> {
       ) {
         if (snapshot.hasData) {
           return new ListView(
-            children: snapshot.data
-                .map((Line line) => new LineListTileWidget(line: line))
-                .toList(),
+            children: snapshot.data.map((Line line) {
+              return new LineListTileWidget(
+                line: line,
+                onTap: () {
+                  selectLine(line).then((_) {
+                    Navigator.of(context).pushNamed('/line');
+                  });
+                },
+              );
+            }).toList(),
           );
         } else {
           return new LoadingSpinnerWidget();
