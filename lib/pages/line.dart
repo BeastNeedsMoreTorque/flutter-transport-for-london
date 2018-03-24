@@ -3,6 +3,7 @@ import 'package:flutter_flux/flutter_flux.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/stores/line.dart';
+import 'package:transport_for_london/stores/stop_point.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
 import 'package:transport_for_london/widgets/stop_point_list_tile.dart';
 
@@ -14,12 +15,14 @@ class LinePage extends StatefulWidget {
 class _LinePageState extends State<LinePage> with StoreWatcherMixin<LinePage> {
   LineService _lineService = new LineService();
   LineStore _lineStore;
+  StopPointStore _stopPointStore;
 
   @override
   void initState() {
     super.initState();
 
     _lineStore = listenToStore(lineStoreToken);
+    _stopPointStore = listenToStore(stopPointStoreToken);
   }
 
   AppBar _buildAppBar() {
@@ -38,6 +41,11 @@ class _LinePageState extends State<LinePage> with StoreWatcherMixin<LinePage> {
           return new ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return new StopPointListTileWidget(
+                onTap: () {
+                  selectStopPoint(snapshot.data[index]).then((_) {
+                    Navigator.of(context).pushNamed('/stop_point');
+                  });
+                },
                 stopPoint: snapshot.data[index],
               );
             },

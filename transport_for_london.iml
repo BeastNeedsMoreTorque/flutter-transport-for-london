@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../flutter_flux">
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/android/app/packages" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/android/app/src/main/java/com/packages" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/android/app/src/main/java/com/yourcompany/flutterfluxexample/packages" />
@@ -26,6 +27,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/android/gradle/packages" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/android/gradle/wrapper/packages" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/android/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/ios/Flutter/packages" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/ios/Runner.xcodeproj/packages" />
       <excludeFolder url="file://$MODULE_DIR$/../flutter_flux/example/ios/Runner.xcodeproj/project.xcworkspace/packages" />

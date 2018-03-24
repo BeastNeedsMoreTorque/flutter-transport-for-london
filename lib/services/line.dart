@@ -16,7 +16,7 @@ class LineService {
 
   Future<List<LineStatus>> getLineStatusesByLine(String line) async {
     return await _httpService
-        .get<List<Map<String, dynamic>>>('/Line/Mode/$line')
+        .get<List<Map<String, dynamic>>>('/Line/$line/Status')
         .then(_mapToLineStatuses);
   }
 
