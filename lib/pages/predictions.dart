@@ -26,6 +26,21 @@ class _PredictionsPageState extends State<PredictionsPage>
     _stopPointStore = listenToStore(stopPointStoreToken);
   }
 
+  List<Widget> _buildAppBarActions() {
+    return [
+      new IconButton(
+        icon: new Icon(Icons.info),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/additional_properties');
+        },
+      ),
+    ];
+  }
+
+  Text _buildAppBarTitle() {
+    return new Text(_stopPointStore.stopPoint.commonName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder<List<Prediction>>(
@@ -43,13 +58,14 @@ class _PredictionsPageState extends State<PredictionsPage>
             length: _predictions.length,
             child: new Scaffold(
               appBar: new AppBar(
+                actions: _buildAppBarActions(),
                 bottom: new TabBar(
                   isScrollable: true,
                   tabs: _predictions.keys.toList().map((key) {
                     return new Tab(text: key);
                   }).toList(),
                 ),
-                title: new Text(_stopPointStore.stopPoint.commonName),
+                title: _buildAppBarTitle(),
               ),
               body: new TabBarView(
                 children: _predictions.values.map((values) {
@@ -85,7 +101,8 @@ class _PredictionsPageState extends State<PredictionsPage>
         } else {
           return new Scaffold(
             appBar: new AppBar(
-              title: new Text(_stopPointStore.stopPoint.commonName),
+              actions: _buildAppBarActions(),
+              title: _buildAppBarTitle(),
             ),
             body: new LoadingSpinnerWidget(),
           );
