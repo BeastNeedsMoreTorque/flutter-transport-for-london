@@ -7,12 +7,13 @@ import 'package:transport_for_london/stores/stop_point.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
 import 'package:transport_for_london/widgets/stop_point_list_tile.dart';
 
-class LinePage extends StatefulWidget {
+class StopPointsPage extends StatefulWidget {
   @override
-  _LinePageState createState() => new _LinePageState();
+  _StopPointsPageState createState() => new _StopPointsPageState();
 }
 
-class _LinePageState extends State<LinePage> with StoreWatcherMixin<LinePage> {
+class _StopPointsPageState extends State<StopPointsPage>
+    with StoreWatcherMixin<StopPointsPage> {
   LineService _lineService = new LineService();
   LineStore _lineStore;
   StopPointStore _stopPointStore;
@@ -43,7 +44,7 @@ class _LinePageState extends State<LinePage> with StoreWatcherMixin<LinePage> {
               return new StopPointListTileWidget(
                 onTap: () {
                   selectStopPoint(snapshot.data[index]).then((_) {
-                    Navigator.of(context).pushNamed('/stop_point');
+                    Navigator.of(context).pushNamed('/predictions');
                   });
                 },
                 stopPoint: snapshot.data[index],

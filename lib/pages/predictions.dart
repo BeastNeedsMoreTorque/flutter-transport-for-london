@@ -8,13 +8,13 @@ import 'package:transport_for_london/widgets/loading_spinner.dart';
 import 'package:transport_for_london/widgets/prediction_list_tile.dart';
 import 'package:transport_for_london/widgets/text_divider.dart';
 
-class StopPointPage extends StatefulWidget {
+class PredictionsPage extends StatefulWidget {
   @override
-  _StopPointPageState createState() => new _StopPointPageState();
+  _PredictionsPageState createState() => new _PredictionsPageState();
 }
 
-class _StopPointPageState extends State<StopPointPage>
-    with StoreWatcherMixin<StopPointPage> {
+class _PredictionsPageState extends State<PredictionsPage>
+    with StoreWatcherMixin<PredictionsPage> {
   Map<String, List<Prediction>> _predictions = new Map();
   StopPointService _stopPointService = new StopPointService();
   StopPointStore _stopPointStore;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/pages/home.dart';
-import 'package:transport_for_london/pages/line.dart';
 import 'package:transport_for_london/pages/lines.dart';
-import 'package:transport_for_london/pages/stop_point.dart';
+import 'package:transport_for_london/pages/predictions.dart';
+import 'package:transport_for_london/pages/stop_points.dart';
 
 void main() => runApp(new MyApp());
 
@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       home: new HomePage(),
       routes: <String, WidgetBuilder>{
-        '/line': (BuildContext context) => new LinePage(),
         '/lines': (BuildContext context) => new LinesPage(),
-        '/stop_point': (BuildContext context) => new StopPointPage(),
+        '/predictions': (BuildContext context) => new PredictionsPage(),
+        '/stop_points': (BuildContext context) => new StopPointsPage(),
       },
       theme: new ThemeData.dark(),
       title: 'Transport for London',

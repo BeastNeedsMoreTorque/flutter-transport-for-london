@@ -43,7 +43,7 @@ class _LinesPageState extends State<LinesPage>
                 line: line,
                 onTap: () {
                   selectLine(line).then((_) {
-                    Navigator.of(context).pushNamed('/line');
+                    Navigator.of(context).pushNamed('/stop_points');
                   });
                 },
               );
