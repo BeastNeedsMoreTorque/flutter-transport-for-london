@@ -28,8 +28,20 @@ class _StopPointsPageState extends State<StopPointsPage>
 
   AppBar _buildAppBar() {
     return new AppBar(
+      actions: _buildAppBarActions(),
       title: new Text(_lineStore.line.name),
     );
+  }
+
+  List<Widget> _buildAppBarActions() {
+    return [
+      new IconButton(
+        icon: new Icon(Icons.info),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/line_statuses');
+        },
+      ),
+    ];
   }
 
   FutureBuilder<List<StopPoint>> _buildStopPoints() {

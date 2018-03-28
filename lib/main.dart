@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/pages/additional_properties.dart';
 import 'package:transport_for_london/pages/home.dart';
+import 'package:transport_for_london/pages/line_statuses.dart';
 import 'package:transport_for_london/pages/lines.dart';
 import 'package:transport_for_london/pages/predictions.dart';
 import 'package:transport_for_london/pages/stop_points.dart';
@@ -13,11 +14,11 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       home: new HomePage(),
       routes: <String, WidgetBuilder>{
-        '/additional_properties': (BuildContext context) =>
-            new AdditionalPropertiesPage(),
-        '/lines': (BuildContext context) => new LinesPage(),
-        '/predictions': (BuildContext context) => new PredictionsPage(),
-        '/stop_points': (BuildContext context) => new StopPointsPage(),
+        '/additional_properties': (_) => new AdditionalPropertiesPage(),
+        '/line_statuses': (_) => new LineStatusesPage(),
+        '/lines': (_) => new LinesPage(),
+        '/predictions': (_) => new PredictionsPage(),
+        '/stop_points': (_) => new StopPointsPage(),
       },
       theme: new ThemeData.dark(),
       title: 'Transport for London',

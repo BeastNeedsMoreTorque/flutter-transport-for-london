@@ -27,11 +27,9 @@ class LineService {
   }
 
   List<LineStatus> _mapToLineStatuses(
-    List<Map<String, dynamic>> lineStatuses,
+    List<Map<String, dynamic>> lines,
   ) {
-    return lineStatuses.map((lineStatus) {
-      return new LineStatus.fromJson(lineStatus);
-    }).toList();
+    return new Line.fromJson(lines[0]).lineStatuses;
   }
 
   List<Line> _mapToLines(
