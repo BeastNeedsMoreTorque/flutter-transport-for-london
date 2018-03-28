@@ -14,6 +14,11 @@ class DrawerWidget extends StatelessWidget {
       route: '/lines',
       title: 'Lines',
     ),
+    new Page(
+      icon: new Icon(Icons.warning),
+      route: '/disruptions',
+      title: 'Disruptions',
+    ),
   ];
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/pages/additional_properties.dart';
+import 'package:transport_for_london/pages/disruptions.dart';
 import 'package:transport_for_london/pages/home.dart';
 import 'package:transport_for_london/pages/line_statuses.dart';
 import 'package:transport_for_london/pages/lines.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       home: new HomePage(),
       routes: <String, WidgetBuilder>{
         '/additional_properties': (_) => new AdditionalPropertiesPage(),
+        '/disruptions': (_) => new DisruptionsPage(),
         '/line_statuses': (_) => new LineStatusesPage(),
         '/lines': (_) => new LinesPage(),
         '/predictions': (_) => new PredictionsPage(),

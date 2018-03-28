@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:transport_for_london/models/disruption.dart';
 import 'package:transport_for_london/models/line.dart';
 import 'package:transport_for_london/models/line_status.dart';
 import 'package:transport_for_london/models/stop_point.dart';
@@ -7,6 +8,12 @@ import 'package:transport_for_london/services/http.dart';
 
 class LineService {
   final HttpService _httpService = new HttpService();
+
+  Future<List<Disruption>> getDisruptionsByMode([String mode = 'tube']) async {
+    return await _httpService
+        .get<List<Map<String, dynamic>>>('/Line/Mode/$mode/Disruption')
+        .then(_mapToDisruptions);
+  }
 
   Future<List<Line>> getLinesByMode([String mode = 'tube']) async {
     return await _httpService
@@ -24,6 +31,14 @@ class LineService {
     return await _httpService
         .get<List<Map<String, dynamic>>>('/Line/$line/StopPoints')
         .then(_mapToStopPoints);
+  }
+
+  List<Disruption> _mapToDisruptions(
+    List<Map<String, dynamic>> disruptions,
+  ) {
+    return disruptions.map((disruption) {
+      return new Disruption.fromJson(disruption);
+    }).toList();
   }
 
   List<LineStatus> _mapToLineStatuses(
