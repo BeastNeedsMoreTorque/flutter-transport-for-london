@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:transport_for_london/pages/additional_properties.dart';
 import 'package:transport_for_london/pages/disruptions.dart';
 import 'package:transport_for_london/pages/home.dart';
@@ -14,6 +15,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new HomePage(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       routes: <String, WidgetBuilder>{
         '/additional_properties': (_) => new AdditionalPropertiesPage(),
         '/disruptions': (_) => new DisruptionsPage(),
@@ -22,6 +27,9 @@ class MyApp extends StatelessWidget {
         '/predictions': (_) => new PredictionsPage(),
         '/stop_points': (_) => new StopPointsPage(),
       },
+      supportedLocales: [
+        const Locale('en', 'GB'),
+      ],
       theme: new ThemeData.dark(),
       title: 'Transport for London',
     );

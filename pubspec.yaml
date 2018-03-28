@@ -8,6 +8,9 @@ dependencies:
   flutter_flux:
     path: ../flutter_flux
 
+  flutter_localizations:
+    sdk: flutter
+
   cupertino_icons: ^0.1.0
   json_annotation: ^0.2.0
 

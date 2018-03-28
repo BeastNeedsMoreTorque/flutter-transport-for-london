@@ -27,6 +27,18 @@ class LineService {
         .then(_mapToLineStatuses);
   }
 
+  Future<List<LineStatus>> getLineStatusesByLineDate(
+    String line,
+    DateTime fromDate,
+    DateTime toDate,
+  ) async {
+    return await _httpService
+        .get<List<Map<String, dynamic>>>(
+          '/Line/$line/Status/${fromDate.toIso8601String().substring(0, 10)}/to/${toDate.toIso8601String().substring(0, 10)}',
+        )
+        .then(_mapToLineStatuses);
+  }
+
   Future<List<StopPoint>> getStopPointsByLine(String line) async {
     return await _httpService
         .get<List<Map<String, dynamic>>>('/Line/$line/StopPoints')

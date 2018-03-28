@@ -13,7 +13,9 @@ class LineStatusesPage extends StatefulWidget {
 
 class _LineStatusesPageState extends State<LineStatusesPage>
     with StoreWatcherMixin<LineStatusesPage> {
+  DateTime _fromDate;
   LineService _lineService = new LineService();
+  List<LineStatus> _lineStatuses = [];
   LineStore _lineStore;
 
   @override
@@ -25,8 +27,18 @@ class _LineStatusesPageState extends State<LineStatusesPage>
 
   AppBar _buildAppBar() {
     return new AppBar(
+      actions: _buildAppBarActions(),
       title: new Text(_lineStore.line.name),
     );
+  }
+
+  List<Widget> _buildAppBarActions() {
+    return [
+      new IconButton(
+        icon: new Icon(Icons.date_range),
+        onPressed: _handleFutureStatusesPressed,
+      ),
+    ];
   }
 
   FutureBuilder<List<LineStatus>> _buildLineStatuses() {
@@ -36,13 +48,15 @@ class _LineStatusesPageState extends State<LineStatusesPage>
         AsyncSnapshot<List<LineStatus>> snapshot,
       ) {
         if (snapshot.hasData) {
+          if (_fromDate == null) _lineStatuses = snapshot.data;
+
           return new ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return new LineStatusListTileWidget(
-                lineStatus: snapshot.data[index],
+                lineStatus: _lineStatuses[index],
               );
             },
-            itemCount: snapshot.data.length,
+            itemCount: _lineStatuses.length,
           );
         } else {
           return new LoadingSpinnerWidget();
@@ -50,6 +64,31 @@ class _LineStatusesPageState extends State<LineStatusesPage>
       },
       future: _lineService.getLineStatusesByLine(_lineStore.line.id),
     );
+  }
+
+  void _handleFutureStatusesPressed() {
+    DateTime currentDate = new DateTime.now().subtract(new Duration(days: 1));
+
+    if (_fromDate == null) _fromDate = currentDate.add(new Duration(days: 1));
+
+    showDatePicker(
+      context: context,
+      initialDate: _fromDate,
+      firstDate: currentDate.isAfter(_fromDate) ? _fromDate : currentDate,
+      lastDate: currentDate.add(new Duration(days: 61)),
+    ).then((fromDate) {
+      _fromDate = fromDate;
+
+      if (fromDate != null) {
+        return _lineService.getLineStatusesByLineDate(
+          _lineStore.line.id,
+          fromDate,
+          fromDate.add(new Duration(days: 1)),
+        );
+      }
+    }).then((lineStatuses) {
+      setState(() => _lineStatuses = lineStatuses ?? []);
+    });
   }
 
   @override
