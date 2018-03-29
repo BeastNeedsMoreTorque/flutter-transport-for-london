@@ -30,7 +30,7 @@ class _LinesPageState extends State<LinesPage>
     );
   }
 
-  FutureBuilder<List<Line>> _buildLinesList() {
+  FutureBuilder<List<Line>> _buildLines() {
     return new FutureBuilder<List<Line>>(
       builder: (
         BuildContext context,
@@ -43,8 +43,8 @@ class _LinesPageState extends State<LinesPage>
                 line: line,
                 onTap: () {
                   selectLine(line).then((_) {
-                    Navigator.of(context).pushNamed('/stop_points');
-                  });
+                    return Navigator.of(context).pushNamed('/stop_points');
+                  }).then((_) => resetLine());
                 },
               );
             }).toList(),
@@ -61,7 +61,7 @@ class _LinesPageState extends State<LinesPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: _buildAppBar(),
-      body: _buildLinesList(),
+      body: _buildLines(),
       drawer: new DrawerWidget(),
     );
   }
