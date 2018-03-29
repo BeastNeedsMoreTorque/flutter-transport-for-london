@@ -14,7 +14,22 @@ class LinesPage extends StatefulWidget {
 
 class _LinesPageState extends State<LinesPage>
     with StoreWatcherMixin<LinesPage> {
+  _LinesPageState() {
+    _lineItemBuilder = (BuildContext context, int index) {
+      return new LineListTileWidget(
+        line: _lines[index],
+        onTap: () {
+          selectLine(_lines[index]).then((_) {
+            return Navigator.of(context).pushNamed('/stop_points');
+          }).then((_) => resetLine());
+        },
+      );
+    };
+  }
+
+  IndexedWidgetBuilder _lineItemBuilder;
   LineService _lineService = new LineService();
+  List<Line> _lines = [];
   LineStore _lineStore;
 
   @override
@@ -30,25 +45,23 @@ class _LinesPageState extends State<LinesPage>
     );
   }
 
-  FutureBuilder<List<Line>> _buildLines() {
+  ListView _buildLineListView() {
+    return new ListView.builder(
+      itemBuilder: _lineItemBuilder,
+      itemCount: _lines.length,
+    );
+  }
+
+  Widget _buildLines() {
     return new FutureBuilder<List<Line>>(
       builder: (
         BuildContext context,
         AsyncSnapshot<List<Line>> snapshot,
       ) {
         if (snapshot.hasData) {
-          return new ListView(
-            children: snapshot.data.map((Line line) {
-              return new LineListTileWidget(
-                line: line,
-                onTap: () {
-                  selectLine(line).then((_) {
-                    return Navigator.of(context).pushNamed('/stop_points');
-                  }).then((_) => resetLine());
-                },
-              );
-            }).toList(),
-          );
+          _lines = snapshot.data;
+
+          return _buildLineListView();
         } else {
           return new LoadingSpinnerWidget();
         }

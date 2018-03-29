@@ -13,8 +13,19 @@ class LineStatusesPage extends StatefulWidget {
 
 class _LineStatusesPageState extends State<LineStatusesPage>
     with StoreWatcherMixin<LineStatusesPage> {
+  _LineStatusesPageState() {
+    _lineStatusItemBuilder = (BuildContext context, int index) {
+      return new LineStatusListTileWidget(
+        lineStatus: _futureStatuses[index],
+      );
+    };
+  }
+
   DateTime _fromDate;
+  List<LineStatus> _futureStatuses = [];
+  bool _isLoading = false;
   LineService _lineService = new LineService();
+  IndexedWidgetBuilder _lineStatusItemBuilder;
   List<LineStatus> _lineStatuses = [];
   LineStore _lineStore;
 
@@ -41,29 +52,34 @@ class _LineStatusesPageState extends State<LineStatusesPage>
     ];
   }
 
-  FutureBuilder<List<LineStatus>> _buildLineStatuses() {
-    return new FutureBuilder<List<LineStatus>>(
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<List<LineStatus>> snapshot,
-      ) {
-        if (snapshot.hasData) {
-          if (_fromDate == null) _lineStatuses = snapshot.data;
-
-          return new ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return new LineStatusListTileWidget(
-                lineStatus: _lineStatuses[index],
-              );
-            },
-            itemCount: _lineStatuses.length,
-          );
-        } else {
-          return new LoadingSpinnerWidget();
-        }
-      },
-      future: _lineService.getLineStatusesByLine(_lineStore.line.id),
+  ListView _buildLineStatusListView() {
+    return new ListView.builder(
+      itemBuilder: _lineStatusItemBuilder,
+      itemCount: _futureStatuses.length,
     );
+  }
+
+  Widget _buildLineStatuses() {
+    if (_futureStatuses.length > 0) {
+      return _buildLineStatusListView();
+    } else {
+      return new FutureBuilder<List<LineStatus>>(
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<List<LineStatus>> snapshot,
+        ) {
+          if (snapshot.hasData) {
+            _futureStatuses = snapshot.data;
+            _lineStatuses = snapshot.data;
+
+            return _buildLineStatusListView();
+          } else {
+            return new LoadingSpinnerWidget();
+          }
+        },
+        future: _lineService.getLineStatusesByLine(_lineStore.line.id),
+      );
+    }
   }
 
   void _handleFutureStatusesPressed() {
@@ -80,6 +96,8 @@ class _LineStatusesPageState extends State<LineStatusesPage>
       _fromDate = fromDate;
 
       if (fromDate != null) {
+        setState(() => _isLoading = true);
+
         return _lineService.getLineStatusesByLineDate(
           _lineStore.line.id,
           fromDate,
@@ -87,7 +105,10 @@ class _LineStatusesPageState extends State<LineStatusesPage>
         );
       }
     }).then((lineStatuses) {
-      setState(() => _lineStatuses = lineStatuses ?? []);
+      setState(() {
+        _futureStatuses = lineStatuses ?? _lineStatuses;
+        _isLoading = false;
+      });
     });
   }
 
@@ -95,7 +116,7 @@ class _LineStatusesPageState extends State<LineStatusesPage>
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: _buildAppBar(),
-      body: _buildLineStatuses(),
+      body: _isLoading ? new LoadingSpinnerWidget() : _buildLineStatuses(),
     );
   }
 }

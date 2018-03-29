@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:transport_for_london/models/line.dart';
 
@@ -8,7 +10,10 @@ class LineStore extends Store {
     });
 
     triggerOnAction(resetLine, (_) {
-      _line = null;
+      return new Future.delayed(
+        new Duration(seconds: 3),
+        () => _line = null,
+      );
     });
   }
 

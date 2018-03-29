@@ -26,8 +26,8 @@ class _StopPointsPageState extends State<StopPointsPage>
       return new StopPointListTileWidget(
         onTap: () {
           selectStopPoint(_filteredStopPoints[index]).then((_) {
-            Navigator.of(context).pushNamed('/predictions');
-          });
+            return Navigator.of(context).pushNamed('/predictions');
+          }).then((_) => resetStopPoint());
         },
         stopPoint: _filteredStopPoints[index],
       );

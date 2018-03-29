@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 
@@ -8,7 +10,10 @@ class StopPointStore extends Store {
     });
 
     triggerOnAction(resetStopPoint, (_) {
-      _stopPoint = null;
+      return new Future.delayed(
+        new Duration(seconds: 3),
+        () => _stopPoint = null,
+      );
     });
   }
 

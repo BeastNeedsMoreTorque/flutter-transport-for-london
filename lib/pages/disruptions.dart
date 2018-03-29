@@ -11,6 +11,16 @@ class DisruptionsPage extends StatefulWidget {
 }
 
 class _DisruptionsPageState extends State<DisruptionsPage> {
+  _DisruptionsPageState() {
+    _disruptionItemBuilder = (BuildContext context, int index) {
+      return new DisruptionListTileWidget(
+        disruption: _disruptions[index],
+      );
+    };
+  }
+
+  IndexedWidgetBuilder _disruptionItemBuilder;
+  List<Disruption> _disruptions = [];
   LineService _lineService = new LineService();
 
   AppBar _buildAppBar() {
@@ -19,21 +29,23 @@ class _DisruptionsPageState extends State<DisruptionsPage> {
     );
   }
 
-  FutureBuilder<List<Disruption>> _buildDisruptions() {
+  ListView _buildDisruptionListView() {
+    return new ListView.builder(
+      itemBuilder: _disruptionItemBuilder,
+      itemCount: _disruptions.length,
+    );
+  }
+
+  Widget _buildDisruptions() {
     return new FutureBuilder<List<Disruption>>(
       builder: (
-          BuildContext context,
-          AsyncSnapshot<List<Disruption>> snapshot,
-          ) {
+        BuildContext context,
+        AsyncSnapshot<List<Disruption>> snapshot,
+      ) {
         if (snapshot.hasData) {
-          return new ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return new DisruptionListTileWidget(
-                disruption: snapshot.data[index],
-              );
-            },
-            itemCount: snapshot.data.length,
-          );
+          _disruptions = snapshot.data;
+
+          return _buildDisruptionListView();
         } else {
           return new LoadingSpinnerWidget();
         }
