@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:transport_for_london/models/configuration.dart';
+import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
 
 class HomePage extends StatefulWidget {
+  HomePage(this.configuration);
+
+  final Configuration configuration;
+
   @override
   _HomePageState createState() => new _HomePageState();
 }
@@ -13,10 +19,37 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _buildHome() {
+    return new ListView(
+      children: <Widget>[
+        _buildStopPointListTile(
+          new Icon(Icons.home),
+          widget.configuration.home,
+        ),
+        _buildStopPointListTile(
+          new Icon(Icons.work),
+          widget.configuration.work,
+        ),
+      ],
+    );
+  }
+
+  ListTile _buildStopPointListTile(Icon icon, StopPoint stopPoint) {
+    return new ListTile(
+      leading: icon,
+      title: new Text(
+        stopPoint?.commonName ?? 'Unknown',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: _buildAppBar(),
+      body: _buildHome(),
       drawer: new DrawerWidget(),
     );
   }
