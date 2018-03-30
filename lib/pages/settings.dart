@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flux/flutter_flux.dart';
 import 'package:transport_for_london/models/configuration.dart';
-import 'package:transport_for_london/models/stop_point.dart';
-import 'package:transport_for_london/services/stop_point.dart';
+import 'package:transport_for_london/stores/configuration.dart';
+import 'package:transport_for_london/stores/stop_point.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
-import 'package:transport_for_london/widgets/loading_spinner.dart';
 import 'package:transport_for_london/widgets/text_divider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -16,9 +16,18 @@ class SettingsPage extends StatefulWidget {
   _SettingsPageState createState() => new _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
-  StopPointService _stopPointService = new StopPointService();
-  List<StopPoint> _stopPoints = [];
+class _SettingsPageState extends State<SettingsPage>
+    with StoreWatcherMixin<SettingsPage> {
+  ConfigurationStore _configurationStore;
+  StopPointStore _stopPointStore;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _configurationStore = listenToStore(configurationStoreToken);
+    _stopPointStore = listenToStore(stopPointStoreToken);
+  }
 
   AppBar _buildAppBar() {
     return new AppBar(
@@ -33,37 +42,35 @@ class _SettingsPageState extends State<SettingsPage> {
         new Container(
           child: new Column(
             children: <Widget>[
-              _buildStopPointDropdownButton(
-                'Home',
+              _buildStopPointListTile(
+                () {
+                  widget.updater(
+                    widget.configuration.copyWith(
+                      home: _stopPointStore.stopPoint,
+                    ),
+                  );
+
+                  resetStopPoint();
+                  resetStopPointBeingEdited();
+                },
                 new Icon(Icons.home),
-                (home) {
-                  widget.updater(
-                    widget.configuration.copyWith(
-                      home: _stopPoints.firstWhere(
-                        (stopPoint) {
-                          return stopPoint.commonName == home;
-                        },
-                      ),
-                    ),
-                  );
-                },
-                widget.configuration.home?.commonName,
+                'Home',
+                widget.configuration.home?.commonName ?? 'Unknown',
               ),
-              _buildStopPointDropdownButton(
-                'Work',
-                new Icon(Icons.work),
-                (work) {
+              _buildStopPointListTile(
+                () {
                   widget.updater(
                     widget.configuration.copyWith(
-                      work: _stopPoints.firstWhere(
-                        (stopPoint) {
-                          return stopPoint.commonName == work;
-                        },
-                      ),
+                      work: _stopPointStore.stopPoint,
                     ),
                   );
+
+                  resetStopPoint();
+                  resetStopPointBeingEdited();
                 },
-                widget.configuration.work?.commonName,
+                new Icon(Icons.work),
+                'Work',
+                widget.configuration.work?.commonName ?? 'Unknown',
               ),
             ],
           ),
@@ -73,56 +80,28 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildSettings() {
-    if (_stopPoints.length > 0) {
-      return _buildSettingListView();
-    } else {
-      return new FutureBuilder<List<StopPoint>>(
-        builder: (
-          BuildContext context,
-          AsyncSnapshot<List<StopPoint>> snapshot,
-        ) {
-          if (snapshot.hasData) {
-            _stopPoints = snapshot.data;
-
-            return _buildSettingListView();
-          } else {
-            return new LoadingSpinnerWidget();
-          }
-        },
-        future: _stopPointService.getStopPointsByTypeMode(),
-      );
-    }
+    return _buildSettingListView();
   }
 
-  ListTile _buildStopPointDropdownButton(
-    String hint,
+  ListTile _buildStopPointListTile(
+    VoidCallback callback,
     Icon icon,
-    ValueChanged<String> onChanged,
-    String value,
+    String stopPointBeingEdited,
+    String title,
   ) {
     return new ListTile(
       leading: icon,
-      title: new DropdownButton(
-        hint: new Text(hint),
-        items: _buildStopPointDropdownMenuItems(),
-        onChanged: onChanged,
-        style: new TextStyle(fontSize: 10.0),
-        value: value,
+      onTap: () {
+        selectStopPointBeingEdited(stopPointBeingEdited).then((_) {
+          return Navigator.of(context).pushNamed('/stop_points');
+        }).then((_) => callback());
+      },
+      title: new Text(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
-  }
-
-  List<DropdownMenuItem<String>> _buildStopPointDropdownMenuItems() {
-    return _stopPoints.map((stopPoint) {
-      return new DropdownMenuItem(
-        child: new Text(
-          stopPoint.commonName,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        value: stopPoint.commonName,
-      );
-    }).toList();
   }
 
   @override

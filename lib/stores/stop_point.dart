@@ -11,7 +11,7 @@ class StopPointStore extends Store {
 
     triggerOnAction(resetStopPoint, (_) {
       return new Future.delayed(
-        new Duration(seconds: 3),
+        new Duration(seconds: 1),
         () => _stopPoint = null,
       );
     });

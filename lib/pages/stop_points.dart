@@ -3,6 +3,7 @@ import 'package:flutter_flux/flutter_flux.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/services/stop_point.dart';
+import 'package:transport_for_london/stores/configuration.dart';
 import 'package:transport_for_london/stores/line.dart';
 import 'package:transport_for_london/stores/stop_point.dart';
 import 'package:transport_for_london/types/predicate.dart';
@@ -25,9 +26,15 @@ class _StopPointsPageState extends State<StopPointsPage>
     ) {
       return new StopPointListTileWidget(
         onTap: () {
-          selectStopPoint(_filteredStopPoints[index]).then((_) {
-            return Navigator.of(context).pushNamed('/predictions');
-          }).then((_) => resetStopPoint());
+          if (_configurationStore.stopPointBeingEdited != null) {
+            selectStopPoint(_filteredStopPoints[index]).then((_) {
+              Navigator.of(context).popUntil(ModalRoute.withName('/settings'));
+            });
+          } else {
+            selectStopPoint(_filteredStopPoints[index]).then((_) {
+              return Navigator.of(context).pushNamed('/predictions');
+            }).then((_) => resetStopPoint());
+          }
         },
         stopPoint: _filteredStopPoints[index],
       );
@@ -43,6 +50,7 @@ class _StopPointsPageState extends State<StopPointsPage>
     };
   }
 
+  ConfigurationStore _configurationStore;
   List<StopPoint> _filteredStopPoints = [];
   bool _isSearching = false;
   LineService _lineService = new LineService();
@@ -59,6 +67,7 @@ class _StopPointsPageState extends State<StopPointsPage>
   void initState() {
     super.initState();
 
+    _configurationStore = listenToStore(configurationStoreToken);
     _lineStore = listenToStore(lineStoreToken);
     _stopPointStore = listenToStore(stopPointStoreToken);
   }
@@ -67,7 +76,9 @@ class _StopPointsPageState extends State<StopPointsPage>
     return new AppBar(
       actions: _buildAppBarActions(),
       title: new Text(
-        _lineStore.line != null ? _lineStore.line.name : 'Stop Points',
+        _configurationStore.stopPointBeingEdited != null
+            ? _configurationStore.stopPointBeingEdited
+            : _lineStore.line != null ? _lineStore.line.name : 'Stop Points',
       ),
     );
   }
@@ -161,8 +172,11 @@ class _StopPointsPageState extends State<StopPointsPage>
     return new Scaffold(
       appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
       body: _buildStopPoints(),
-      drawer:
-          _lineStore.line == null && !_isSearching ? new DrawerWidget() : null,
+      drawer: _configurationStore.stopPointBeingEdited == null &&
+              _lineStore.line == null &&
+              !_isSearching
+          ? new DrawerWidget()
+          : null,
     );
   }
 }
