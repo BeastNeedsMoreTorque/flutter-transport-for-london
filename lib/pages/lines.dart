@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_flux/flutter_flux.dart';
+import 'package:transport_for_london/config/app.dart';
+import 'package:transport_for_london/injectors/dependency.dart';
 import 'package:transport_for_london/models/line.dart';
 import 'package:transport_for_london/services/line.dart';
-import 'package:transport_for_london/stores/line.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
 import 'package:transport_for_london/widgets/line_list_tile.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
@@ -12,32 +14,21 @@ class LinesPage extends StatefulWidget {
   _LinesPageState createState() => new _LinesPageState();
 }
 
-class _LinesPageState extends State<LinesPage>
-    with StoreWatcherMixin<LinesPage> {
+class _LinesPageState extends State<LinesPage> {
   _LinesPageState() {
     _lineItemBuilder = (BuildContext context, int index) {
       return new LineListTileWidget(
         line: _lines[index],
-        onTap: () {
-          selectLine(_lines[index]).then((_) {
-            return Navigator.of(context).pushNamed('/stop_points');
-          }).then((_) => resetLine());
-        },
+        onTap: () => _handleLineListTileTap(_lines[index]),
       );
     };
+
+    _lineService = new DependencyInjector().lineService;
   }
 
   IndexedWidgetBuilder _lineItemBuilder;
-  LineService _lineService = new LineService();
+  LineService _lineService;
   List<Line> _lines = [];
-  LineStore _lineStore;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _lineStore = listenToStore(lineStoreToken);
-  }
 
   AppBar _buildAppBar() {
     return new AppBar(
@@ -53,21 +44,29 @@ class _LinesPageState extends State<LinesPage>
   }
 
   Widget _buildLines() {
-    return new FutureBuilder<List<Line>>(
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<List<Line>> snapshot,
-      ) {
-        if (snapshot.hasData) {
-          _lines = snapshot.data;
+    if (_lines.length > 0) {
+      return _buildLineListView();
+    } else {
+      return new FutureBuilder<List<Line>>(
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<List<Line>> snapshot,
+        ) {
+          if (snapshot.hasData) {
+            _lines = snapshot.data;
 
-          return _buildLineListView();
-        } else {
-          return new LoadingSpinnerWidget();
-        }
-      },
-      future: _lineService.getLinesByMode(),
-    );
+            return _buildLineListView();
+          } else {
+            return new LoadingSpinnerWidget();
+          }
+        },
+        future: _lineService.getLinesByMode(),
+      );
+    }
+  }
+
+  Future<void> _handleLineListTileTap(Line line) async {
+    await App.router.navigateTo(context, '/lines/${line.id}');
   }
 
   @override

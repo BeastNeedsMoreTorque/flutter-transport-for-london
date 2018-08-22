@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flux/flutter_flux.dart';
+import 'package:transport_for_london/injectors/dependency.dart';
 import 'package:transport_for_london/models/additional_property.dart';
-import 'package:transport_for_london/stores/stop_point.dart';
+import 'package:transport_for_london/models/stop_point.dart';
+import 'package:transport_for_london/services/stop_point.dart';
 import 'package:transport_for_london/widgets/additional_property_list_tile.dart';
+import 'package:transport_for_london/widgets/loading_spinner.dart';
 
 class AdditionalPropertiesPage extends StatefulWidget {
+  const AdditionalPropertiesPage({
+    Key key,
+    @required this.stopPointId,
+  }) : super(key: key);
+
+  final String stopPointId;
+
   @override
   _AdditionalPropertiesPageState createState() =>
       new _AdditionalPropertiesPageState();
 }
 
-class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage>
-    with StoreWatcherMixin<AdditionalPropertiesPage> {
+class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage> {
+  _AdditionalPropertiesPageState() {
+    _stopPointService = new DependencyInjector().stopPointService;
+  }
+
   bool _isSearching = false;
-  StopPointStore _stopPointStore;
+  StopPoint _stopPoint;
+  StopPointService _stopPointService;
 
   final TextEditingController _searchQuery = new TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-
-    _stopPointStore = listenToStore(stopPointStoreToken);
-  }
-
   ListView _buildAdditionalProperties() {
-    List<AdditionalProperty> additionalProperties = _stopPointStore
-        .stopPoint.additionalProperties
-        .where((additionalProperty) {
+    List<AdditionalProperty> additionalProperties =
+        _stopPoint.additionalProperties.where((additionalProperty) {
       if (_searchQuery.text.isEmpty) {
         return true;
       } else {
@@ -59,7 +64,7 @@ class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage>
           tooltip: 'Search',
         ),
       ],
-      title: new Text(_stopPointStore.stopPoint.commonName),
+      title: new Text(_stopPoint.commonName),
     );
   }
 
@@ -92,9 +97,26 @@ class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
-      body: _buildAdditionalProperties(),
+    return new FutureBuilder<StopPoint>(
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<StopPoint> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          _stopPoint = snapshot.data;
+
+          return new Scaffold(
+            appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
+            body: _buildAdditionalProperties(),
+          );
+        } else {
+          return new Scaffold(
+            appBar: new AppBar(),
+            body: new LoadingSpinnerWidget(),
+          );
+        }
+      },
+      future: _stopPointService.getStopPointByStopPointId(widget.stopPointId),
     );
   }
 }

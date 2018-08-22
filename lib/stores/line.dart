@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:transport_for_london/models/line.dart';
 
@@ -7,13 +5,6 @@ class LineStore extends Store {
   LineStore() {
     triggerOnAction(selectLine, (line) {
       _line = line;
-    });
-
-    triggerOnAction(resetLine, (_) {
-      return new Future.delayed(
-        new Duration(seconds: 1),
-        () => _line = null,
-      );
     });
   }
 
@@ -25,4 +16,3 @@ class LineStore extends Store {
 final StoreToken lineStoreToken = new StoreToken(new LineStore());
 
 final Action<Line> selectLine = new Action<Line>();
-final Action<void> resetLine = new Action<void>();

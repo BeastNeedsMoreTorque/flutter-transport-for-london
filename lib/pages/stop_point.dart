@@ -1,48 +1,54 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flux/flutter_flux.dart';
+import 'package:transport_for_london/config/app.dart';
+import 'package:transport_for_london/injectors/dependency.dart';
 import 'package:transport_for_london/models/prediction.dart';
+import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/stop_point.dart';
-import 'package:transport_for_london/stores/stop_point.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
 import 'package:transport_for_london/widgets/prediction_list_tile.dart';
 import 'package:transport_for_london/widgets/text_divider.dart';
 
-class PredictionsPage extends StatefulWidget {
+class StopPointPage extends StatefulWidget {
+  const StopPointPage({
+    Key key,
+    @required this.stopPointId,
+  }) : super(key: key);
+
+  final String stopPointId;
+
   @override
-  _PredictionsPageState createState() => new _PredictionsPageState();
+  _StopPointPageState createState() => new _StopPointPageState();
 }
 
-class _PredictionsPageState extends State<PredictionsPage>
-    with StoreWatcherMixin<PredictionsPage> {
-  Map<String, List<Prediction>> _predictions = new Map();
-  StopPointService _stopPointService = new StopPointService();
-  StopPointStore _stopPointStore;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _stopPointStore = listenToStore(stopPointStoreToken);
+class _StopPointPageState extends State<StopPointPage> {
+  _StopPointPageState() {
+    _stopPointService = new DependencyInjector().stopPointService;
   }
+
+  Map<String, List<Prediction>> _predictions = new Map();
+  StopPoint _stopPoint;
+  StopPointService _stopPointService;
 
   List<Widget> _buildAppBarActions() {
     return [
       new IconButton(
         icon: new Icon(Icons.info),
         onPressed: () {
-          Navigator.of(context).pushNamed('/additional_properties');
+          App.router.navigateTo(
+            context,
+            '/stop_points/${widget.stopPointId}/additional_properties',
+          );
         },
       ),
     ];
   }
 
   Text _buildAppBarTitle() {
-    return new Text(_stopPointStore.stopPoint.commonName);
+    return new Text(_stopPoint.commonName);
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildStopPoint() {
     return new FutureBuilder<List<Prediction>>(
       builder: (
         BuildContext context,
@@ -108,9 +114,29 @@ class _PredictionsPageState extends State<PredictionsPage>
           );
         }
       },
-      future: _stopPointService.getPredictionsByStopPoint(
-        _stopPointStore.stopPoint.naptanId,
-      ),
+      future: _stopPointService.getPredictionsByStopPointId(widget.stopPointId),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new FutureBuilder<StopPoint>(
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<StopPoint> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          _stopPoint = snapshot.data;
+
+          return _buildStopPoint();
+        } else {
+          return new Scaffold(
+            appBar: new AppBar(),
+            body: new LoadingSpinnerWidget(),
+          );
+        }
+      },
+      future: _stopPointService.getStopPointByStopPointId(widget.stopPointId),
     );
   }
 }

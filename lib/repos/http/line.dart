@@ -1,65 +1,70 @@
 import 'dart:async';
 
+import 'package:transport_for_london/mappings/line.dart';
+import 'package:transport_for_london/mappings/stop_point.dart';
 import 'package:transport_for_london/models/disruption.dart';
 import 'package:transport_for_london/models/line.dart';
 import 'package:transport_for_london/models/line_status.dart';
 import 'package:transport_for_london/models/stop_point.dart';
+import 'package:transport_for_london/repos/http/http.dart';
 import 'package:transport_for_london/repos/line.dart';
 
-class LineService {
-  LineService(this.lineRepo);
-
-  final LineRepo lineRepo;
-
+class HttpLineRepo extends Http implements LineRepo {
+  @override
   Future<List<Disruption>> getDisruptionsByMode([
     String mode = 'tube',
   ]) async {
-    return await lineRepo.getDisruptionsByMode(
-      mode,
+    return mapToDisruptions(
+      await get('/Line/Mode/$mode/Disruption'),
     );
   }
 
+  @override
   Future<Line> getLineByLineId(
     String lineId,
   ) async {
-    return await lineRepo.getLineByLineId(
-      lineId,
+    return mapToLine(
+      ((await get('/Line/$lineId')) as List).first,
     );
   }
 
+  @override
   Future<List<Line>> getLinesByMode([
     String mode = 'tube',
   ]) async {
-    return await lineRepo.getLinesByMode(
-      mode,
+    return mapToLines(
+      await get('/Line/Mode/$mode'),
     );
   }
 
+  @override
   Future<List<LineStatus>> getLineStatusesByLineId(
     String lineId,
   ) async {
-    return await lineRepo.getLineStatusesByLineId(
-      lineId,
+    return mapToLineStatuses(
+      ((await get('/Line/$lineId/Status')) as List).first,
     );
   }
 
+  @override
   Future<List<LineStatus>> getLineStatusesByLineIdDate(
     String lineId,
     DateTime fromDate,
     DateTime toDate,
   ) async {
-    return await lineRepo.getLineStatusesByLineIdDate(
-      lineId,
-      fromDate,
-      toDate,
+    return mapToLineStatuses(
+      await get(
+        '/Line/$lineId/Status/${fromDate.toIso8601String().substring(0, 10)}/to/${toDate.toIso8601String().substring(0, 10)}',
+      ),
     );
   }
 
+  @override
   Future<List<StopPoint>> getStopPointsByLineId(
     String lineId,
   ) async {
-    return await lineRepo.getStopPointsByLineId(
-      lineId,
+    return mapToStopPoints(
+      await get('/Line/$lineId/StopPoints'),
     );
   }
 }

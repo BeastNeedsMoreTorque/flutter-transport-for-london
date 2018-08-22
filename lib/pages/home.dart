@@ -1,29 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_flux/flutter_flux.dart';
+import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/models/configuration.dart';
 import 'package:transport_for_london/models/stop_point.dart';
-import 'package:transport_for_london/stores/stop_point.dart';
+import 'package:transport_for_london/services/preferences.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
+import 'package:transport_for_london/widgets/favourite_stop_point_list_tile.dart';
+import 'package:transport_for_london/widgets/loading_spinner.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage(this.configuration);
-
-  final Configuration configuration;
-
   @override
   _HomePageState createState() => new _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with StoreWatcherMixin<HomePage> {
-  StopPointStore _stopPointStore;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _stopPointStore = listenToStore(stopPointStoreToken);
-  }
+class _HomePageState extends State<HomePage> {
+  Configuration configuration;
+  PreferencesService preferencesService = new PreferencesService();
 
   AppBar _buildAppBar() {
     return new AppBar(
@@ -32,34 +25,54 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildHome() {
-    return new ListView(
-      children: <Widget>[
-        _buildStopPointListTile(
-          new Icon(Icons.home),
-          widget.configuration.home,
-        ),
-        _buildStopPointListTile(
-          new Icon(Icons.work),
-          widget.configuration.work,
+    return new FutureBuilder<Configuration>(
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<Configuration> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          configuration = snapshot.data;
+
+          return _buildHomeScrollView();
+        } else {
+          return new LoadingSpinnerWidget();
+        }
+      },
+      future: preferencesService.getConfiguration(),
+    );
+  }
+
+  Widget _buildHomeScrollView() {
+    return new CustomScrollView(
+      slivers: <Widget>[
+        new SliverList(
+          delegate: new SliverChildListDelegate([
+            _buildFavouriteStopPointListTile(
+              new Icon(Icons.home),
+              configuration.home,
+            ),
+            _buildFavouriteStopPointListTile(
+              new Icon(Icons.work),
+              configuration.work,
+            ),
+          ]),
         ),
       ],
     );
   }
 
-  ListTile _buildStopPointListTile(Icon icon, StopPoint stopPoint) {
-    return new ListTile(
-      leading: icon,
-      onTap: stopPoint != null ? () {
-        selectStopPoint(stopPoint).then((_) {
-          return Navigator.of(context).pushNamed('/predictions');
-        }).then((_) => resetStopPoint());
-      } : null,
-      title: new Text(
-        stopPoint?.commonName ?? 'Unknown',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
+  Widget _buildFavouriteStopPointListTile(Icon icon, StopPoint stopPoint) {
+    return new FavouriteStopPointListTileWidget(
+      icon: icon,
+      onTap: stopPoint != null
+          ? () => _handleFavouriteStopPointListTileTap(stopPoint)
+          : null,
+      stopPoint: stopPoint,
     );
+  }
+
+  Future<void> _handleFavouriteStopPointListTileTap(StopPoint stopPoint) async {
+    await App.router.navigateTo(context, '/stop_points/${stopPoint.id}');
   }
 
   @override

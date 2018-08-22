@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transport_for_london/injectors/dependency.dart';
 import 'package:transport_for_london/models/disruption.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/widgets/disruption_list_tile.dart';
@@ -17,11 +18,13 @@ class _DisruptionsPageState extends State<DisruptionsPage> {
         disruption: _disruptions[index],
       );
     };
+
+    _lineService = new DependencyInjector().lineService;
   }
 
   IndexedWidgetBuilder _disruptionItemBuilder;
   List<Disruption> _disruptions = [];
-  LineService _lineService = new LineService();
+  LineService _lineService;
 
   AppBar _buildAppBar() {
     return new AppBar(

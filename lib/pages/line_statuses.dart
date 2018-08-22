@@ -1,45 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flux/flutter_flux.dart';
+import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/models/line.dart';
 import 'package:transport_for_london/models/line_status.dart';
 import 'package:transport_for_london/services/line.dart';
-import 'package:transport_for_london/stores/line.dart';
 import 'package:transport_for_london/widgets/line_status_list_tile.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
 
 class LineStatusesPage extends StatefulWidget {
+  const LineStatusesPage({
+    Key key,
+    @required this.lineId,
+  }) : super(key: key);
+
+  final String lineId;
+
   @override
   _LineStatusesPageState createState() => new _LineStatusesPageState();
 }
 
-class _LineStatusesPageState extends State<LineStatusesPage>
-    with StoreWatcherMixin<LineStatusesPage> {
+class _LineStatusesPageState extends State<LineStatusesPage> {
   _LineStatusesPageState() {
     _lineStatusItemBuilder = (BuildContext context, int index) {
       return new LineStatusListTileWidget(
         lineStatus: _futureStatuses[index],
       );
     };
+
+    _lineService = new DependencyInjector().lineService;
   }
 
   DateTime _fromDate;
   List<LineStatus> _futureStatuses = [];
   bool _isLoading = false;
-  LineService _lineService = new LineService();
+  Line _line;
+  LineService _lineService;
   IndexedWidgetBuilder _lineStatusItemBuilder;
   List<LineStatus> _lineStatuses = [];
-  LineStore _lineStore;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _lineStore = listenToStore(lineStoreToken);
-  }
 
   AppBar _buildAppBar() {
     return new AppBar(
       actions: _buildAppBarActions(),
-      title: new Text(_lineStore.line.name),
+      title: new Text(_line.name),
     );
   }
 
@@ -60,7 +61,9 @@ class _LineStatusesPageState extends State<LineStatusesPage>
   }
 
   Widget _buildLineStatuses() {
-    if (_futureStatuses.length > 0) {
+    if (_isLoading) {
+      return new LoadingSpinnerWidget();
+    } else if (_futureStatuses.length > 0) {
       return _buildLineStatusListView();
     } else {
       return new FutureBuilder<List<LineStatus>>(
@@ -77,7 +80,7 @@ class _LineStatusesPageState extends State<LineStatusesPage>
             return new LoadingSpinnerWidget();
           }
         },
-        future: _lineService.getLineStatusesByLine(_lineStore.line.id),
+        future: _lineService.getLineStatusesByLineId(_line.id),
       );
     }
   }
@@ -98,8 +101,8 @@ class _LineStatusesPageState extends State<LineStatusesPage>
       if (fromDate != null) {
         setState(() => _isLoading = true);
 
-        return _lineService.getLineStatusesByLineDate(
-          _lineStore.line.id,
+        return _lineService.getLineStatusesByLineIdDate(
+          _line.id,
           fromDate,
           fromDate.add(new Duration(days: 1)),
         );
@@ -114,9 +117,26 @@ class _LineStatusesPageState extends State<LineStatusesPage>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: _buildAppBar(),
-      body: _isLoading ? new LoadingSpinnerWidget() : _buildLineStatuses(),
+    return new FutureBuilder<Line>(
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<Line> snapshot,
+      ) {
+        if (snapshot.hasData) {
+          _line = snapshot.data;
+
+          return new Scaffold(
+            appBar: _buildAppBar(),
+            body: _buildLineStatuses(),
+          );
+        } else {
+          return new Scaffold(
+            appBar: new AppBar(),
+            body: new LoadingSpinnerWidget(),
+          );
+        }
+      },
+      future: _lineService.getLineByLineId(widget.lineId),
     );
   }
 }

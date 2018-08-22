@@ -1,24 +1,31 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/injectors/dependency.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/stop_point.dart';
 import 'package:transport_for_london/types/predicate.dart';
 import 'package:transport_for_london/utils/stop_point.dart';
-import 'package:transport_for_london/widgets/drawer.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
 import 'package:transport_for_london/widgets/search_icon_button.dart';
 import 'package:transport_for_london/widgets/stop_point_list_tile.dart';
 
-class StopPointsPage extends StatefulWidget {
+class EditFavouriteStopPointPage extends StatefulWidget {
+  const EditFavouriteStopPointPage({
+    Key key,
+    @required this.stopPointLabel,
+  }) : super(key: key);
+
+  final String stopPointLabel;
+
   @override
-  _StopPointsPageState createState() => new _StopPointsPageState();
+  _EditFavouriteStopPointPageState createState() =>
+      new _EditFavouriteStopPointPageState();
 }
 
-class _StopPointsPageState extends State<StopPointsPage> {
-  _StopPointsPageState() {
+class _EditFavouriteStopPointPageState
+    extends State<EditFavouriteStopPointPage> {
+  _EditFavouriteStopPointPageState() {
     _stopPointItemBuilder = (
       BuildContext context,
       int index,
@@ -47,10 +54,10 @@ class _StopPointsPageState extends State<StopPointsPage> {
 
   AppBar _buildAppBar() {
     return new AppBar(
-      actions: <Widget>[
+      actions: [
         new SearchIconButtonWidget(onPressed: _handleSearchBegin),
       ],
-      title: new Text('Stop Points'),
+      title: new Text(widget.stopPointLabel),
     );
   }
 
@@ -119,7 +126,8 @@ class _StopPointsPageState extends State<StopPointsPage> {
   }
 
   Future<void> _handleStopPointListTileTap(StopPoint stopPoint) async {
-    await App.router.navigateTo(context, '/stop_points/${stopPoint.id}');
+    if (_isSearching) await Navigator.pop(context);
+    await Navigator.pop(context, stopPoint);
   }
 
   @override
@@ -127,7 +135,6 @@ class _StopPointsPageState extends State<StopPointsPage> {
     return new Scaffold(
       appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
       body: _buildStopPoints(),
-      drawer: !_isSearching ? new DrawerWidget() : null,
     );
   }
 }
