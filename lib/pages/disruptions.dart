@@ -48,7 +48,11 @@ class _DisruptionsPageState extends State<DisruptionsPage> {
         if (snapshot.hasData) {
           _disruptions = snapshot.data;
 
-          return _buildDisruptionListView();
+          if (_disruptions.length > 0) {
+            return _buildDisruptionListView();
+          } else {
+            return new Center(child: new Text('Good Service'));
+          }
         } else {
           return new LoadingSpinnerWidget();
         }
