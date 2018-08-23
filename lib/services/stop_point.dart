@@ -10,20 +10,39 @@ class StopPointService {
 
   final StopPointRepo stopPointRepo;
 
-  Future<List<Prediction>> getPredictionsByStopPointId(
+  Future<Prediction> getArrivalByStopPointIdArrivalId(
     String stopPointId,
+    String arrivalId,
   ) async {
-    return stopPointRepo.getPredictionsByStopPointId(
+    Predicate<Prediction> arrivalIdPredicate = (prediction) {
+      return prediction.id == arrivalId;
+    };
+
+    return (await getArrivalsByStopPointId(stopPointId))
+        .where(arrivalIdPredicate)
+        .first;
+  }
+
+  Future<List<Prediction>> getArrivalsByStopPointId(
+    String stopPointId,
+  ) {
+    return stopPointRepo.getArrivalsByStopPointId(
       stopPointId,
     );
   }
 
   Future<StopPoint> getStopPointByStopPointId(
     String stopPointId,
-  ) async {
+  ) {
     return stopPointRepo.getStopPointByStopPointId(
       stopPointId,
     );
+  }
+
+  Future<List<StopPoint>> getStopPointsByType([
+    String type = 'NaptanMetroStation',
+  ]) {
+    return stopPointRepo.getStopPointsByType(type);
   }
 
   Future<List<StopPoint>> getStopPointsByTypeMode([
@@ -34,8 +53,6 @@ class StopPointService {
       return stopPoint.modes.contains(mode);
     };
 
-    return (await stopPointRepo.getStopPointsByType(type))
-        .where(modePredicate)
-        .toList();
+    return (await getStopPointsByType(type)).where(modePredicate).toList();
   }
 }

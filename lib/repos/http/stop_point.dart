@@ -8,7 +8,7 @@ import 'package:transport_for_london/repos/stop_point.dart';
 
 class HttpStopPointRepo extends Http implements StopPointRepo {
   @override
-  Future<List<Prediction>> getPredictionsByStopPointId(
+  Future<List<Prediction>> getArrivalsByStopPointId(
     String stopPointId,
   ) async {
     return mapToPredictions(

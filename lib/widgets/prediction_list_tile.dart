@@ -6,10 +6,11 @@ import 'package:transport_for_london/models/tfl_colors.dart';
 class PredictionListTileWidget extends StatelessWidget {
   PredictionListTileWidget({
     Key key,
+    this.onTap,
     @required this.prediction,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
+  final VoidCallback onTap;
   final Prediction prediction;
 
   @override
@@ -19,6 +20,7 @@ class PredictionListTileWidget extends StatelessWidget {
         backgroundColor: TflColors.map[prediction.lineId],
       ),
       isThreeLine: true,
+      onTap: onTap,
       subtitle: new Column(
         children: <Widget>[
           new Text(
@@ -40,7 +42,10 @@ class PredictionListTileWidget extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       trailing: new Text(
-        prediction.expectedArrival.toIso8601String().substring(11, 16),
+        prediction.expectedArrival
+            .toLocal()
+            .toIso8601String()
+            .substring(11, 16),
       ),
     );
   }

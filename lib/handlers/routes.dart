@@ -7,6 +7,7 @@ import 'package:transport_for_london/pages/home.dart';
 import 'package:transport_for_london/pages/line.dart';
 import 'package:transport_for_london/pages/line_statuses.dart';
 import 'package:transport_for_london/pages/lines.dart';
+import 'package:transport_for_london/pages/stop_point_arrival.dart';
 import 'package:transport_for_london/pages/stop_point_arrivals.dart';
 import 'package:transport_for_london/pages/stop_point.dart';
 import 'package:transport_for_london/pages/settings.dart';
@@ -98,6 +99,18 @@ Handler stopPointAdditionalPropertiesHandler = new Handler(
     Map<String, List<String>> params,
   ) {
     return new StopPointAdditionalPropertiesPage(
+      stopPointId: params['stopPointId'].first,
+    );
+  },
+);
+
+Handler stopPointArrivalHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new StopPointArrivalPage(
+      arrivalId: params['arrivalId'].first,
       stopPointId: params['stopPointId'].first,
     );
   },

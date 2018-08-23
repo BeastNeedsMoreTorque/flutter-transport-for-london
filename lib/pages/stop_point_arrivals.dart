@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/injectors/dependency.dart';
 import 'package:transport_for_london/models/prediction.dart';
 import 'package:transport_for_london/services/stop_point.dart';
@@ -59,6 +60,12 @@ class _StopPointArrivalsPageState extends State<StopPointArrivalsPage> {
                 delegate: new SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return new PredictionListTileWidget(
+                      onTap: () {
+                        App.router.navigateTo(
+                          context,
+                          '/stop_points/${widget.stopPointId}/arrivals/${entry.value[index].id}',
+                        );
+                      },
                       prediction: entry.value[index],
                     );
                   },
@@ -75,7 +82,7 @@ class _StopPointArrivalsPageState extends State<StopPointArrivalsPage> {
   }
 
   Future<List<Prediction>> _getPredictions() {
-    return _stopPointService.getPredictionsByStopPointId(widget.stopPointId);
+    return _stopPointService.getArrivalsByStopPointId(widget.stopPointId);
   }
 
   @override

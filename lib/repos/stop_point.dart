@@ -4,7 +4,7 @@ import 'package:transport_for_london/models/prediction.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 
 abstract class StopPointRepo {
-  Future<List<Prediction>> getPredictionsByStopPointId(
+  Future<List<Prediction>> getArrivalsByStopPointId(
     String stopPointId,
   );
 

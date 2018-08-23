@@ -50,6 +50,10 @@ class Routes {
       handler: stopPointArrivalsHandler,
     );
     router.define(
+      '/stop_points/:stopPointId/arrivals/:arrivalId',
+      handler: stopPointArrivalHandler,
+    );
+    router.define(
       '/stop_points/:stopPointId/children',
       handler: stopPointChildrenHandler,
     );

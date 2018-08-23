@@ -54,7 +54,7 @@ class HttpLineRepo extends Http implements LineRepo {
   ) async {
     return mapToLineStatuses(
       await get(
-        '/Line/$lineId/Status/${fromDate.toIso8601String().substring(0, 10)}/to/${toDate.toIso8601String().substring(0, 10)}',
+        '/Line/$lineId/Status/${fromDate.toUtc().toIso8601String().substring(0, 10)}/to/${toDate.toUtc().toIso8601String().substring(0, 10)}',
       ),
     );
   }
