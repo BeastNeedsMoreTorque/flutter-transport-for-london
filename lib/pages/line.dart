@@ -13,7 +13,7 @@ import 'package:transport_for_london/widgets/sliver_text_divider.dart';
 import 'package:transport_for_london/widgets/stop_point_list_tile.dart';
 
 class LinePage extends StatefulWidget {
-  const LinePage({
+  LinePage({
     Key key,
     @required this.lineId,
   }) : super(key: key);

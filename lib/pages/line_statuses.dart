@@ -7,7 +7,7 @@ import 'package:transport_for_london/widgets/line_status_list_tile.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
 
 class LineStatusesPage extends StatefulWidget {
-  const LineStatusesPage({
+  LineStatusesPage({
     Key key,
     @required this.lineId,
   }) : super(key: key);

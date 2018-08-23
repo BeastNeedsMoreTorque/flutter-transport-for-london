@@ -6,8 +6,8 @@ import 'package:transport_for_london/services/stop_point.dart';
 import 'package:transport_for_london/widgets/additional_property_list_tile.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
 
-class AdditionalPropertiesPage extends StatefulWidget {
-  const AdditionalPropertiesPage({
+class StopPointAdditionalPropertiesPage extends StatefulWidget {
+  StopPointAdditionalPropertiesPage({
     Key key,
     @required this.stopPointId,
   }) : super(key: key);
@@ -15,12 +15,13 @@ class AdditionalPropertiesPage extends StatefulWidget {
   final String stopPointId;
 
   @override
-  _AdditionalPropertiesPageState createState() =>
-      new _AdditionalPropertiesPageState();
+  _StopPointAdditionalPropertiesPageState createState() =>
+      new _StopPointAdditionalPropertiesPageState();
 }
 
-class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage> {
-  _AdditionalPropertiesPageState() {
+class _StopPointAdditionalPropertiesPageState
+    extends State<StopPointAdditionalPropertiesPage> {
+  _StopPointAdditionalPropertiesPageState() {
     _stopPointService = new DependencyInjector().stopPointService;
   }
 
@@ -30,7 +31,29 @@ class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage> {
 
   final TextEditingController _searchQuery = new TextEditingController();
 
-  ListView _buildAdditionalProperties() {
+  Widget _buildAdditionalProperties() {
+    if (_stopPoint != null) {
+      return _buildAdditionalPropertiesListView();
+    } else {
+      return new FutureBuilder<StopPoint>(
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<StopPoint> snapshot,
+        ) {
+          if (snapshot.hasData) {
+            _stopPoint = snapshot.data;
+
+            return _buildAdditionalPropertiesListView();
+          } else {
+            return new LoadingSpinnerWidget();
+          }
+        },
+        future: _stopPointService.getStopPointByStopPointId(widget.stopPointId),
+      );
+    }
+  }
+
+  Widget _buildAdditionalPropertiesListView() {
     List<AdditionalProperty> additionalProperties =
         _stopPoint.additionalProperties.where((additionalProperty) {
       if (_searchQuery.text.isEmpty) {
@@ -64,7 +87,7 @@ class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage> {
           tooltip: 'Search',
         ),
       ],
-      title: new Text(_stopPoint.commonName),
+      title: new Text('Information'),
     );
   }
 
@@ -97,26 +120,9 @@ class _AdditionalPropertiesPageState extends State<AdditionalPropertiesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new FutureBuilder<StopPoint>(
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<StopPoint> snapshot,
-      ) {
-        if (snapshot.hasData) {
-          _stopPoint = snapshot.data;
-
-          return new Scaffold(
-            appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
-            body: _buildAdditionalProperties(),
-          );
-        } else {
-          return new Scaffold(
-            appBar: new AppBar(),
-            body: new LoadingSpinnerWidget(),
-          );
-        }
-      },
-      future: _stopPointService.getStopPointByStopPointId(widget.stopPointId),
+    return new Scaffold(
+      appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
+      body: _buildAdditionalProperties(),
     );
   }
 }

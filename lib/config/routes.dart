@@ -46,6 +46,18 @@ class Routes {
       handler: stopPointAdditionalPropertiesHandler,
     );
     router.define(
+      '/stop_points/:stopPointId/arrivals',
+      handler: stopPointArrivalsHandler,
+    );
+    router.define(
+      '/stop_points/:stopPointId/children',
+      handler: stopPointChildrenHandler,
+    );
+    router.define(
+      '/stop_points/:stopPointId/lines',
+      handler: stopPointLinesHandler,
+    );
+    router.define(
       '/stop_points/favourites/:stopPointLabel/edit',
       handler: editFavouriteStopPointHandler,
     );

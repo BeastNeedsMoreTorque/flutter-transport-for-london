@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:transport_for_london/widgets/text_divider.dart';
 
 class SliverTextDividerWidget extends StatelessWidget {
-  const SliverTextDividerWidget({
+  SliverTextDividerWidget({
     Key key,
     @required this.text,
   }) : super(key: key);

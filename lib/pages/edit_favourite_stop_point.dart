@@ -11,7 +11,7 @@ import 'package:transport_for_london/widgets/search_icon_button.dart';
 import 'package:transport_for_london/widgets/stop_point_list_tile.dart';
 
 class EditFavouriteStopPointPage extends StatefulWidget {
-  const EditFavouriteStopPointPage({
+  EditFavouriteStopPointPage({
     Key key,
     @required this.stopPointLabel,
   }) : super(key: key);
