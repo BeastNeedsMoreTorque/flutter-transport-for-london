@@ -12,7 +12,9 @@ class HttpStopPointRepo extends Http implements StopPointRepo {
     String stopPointId,
   ) async {
     return mapToPredictions(
-      await get('/StopPoint/$stopPointId/Arrivals'),
+      await get(
+        '/StopPoint/$stopPointId/Arrivals',
+      ),
     );
   }
 
@@ -21,16 +23,31 @@ class HttpStopPointRepo extends Http implements StopPointRepo {
     String stopPointId,
   ) async {
     return mapToStopPoint(
-      await get('/StopPoint/$stopPointId'),
+      await get(
+        '/StopPoint/$stopPointId',
+      ),
     );
   }
 
   @override
-  Future<List<StopPoint>> getStopPointsByType([
-    String type = 'NaptanMetroStation',
-  ]) async {
+  Future<List<StopPoint>> getStopPointsByModeName(
+    String modeName,
+  ) async {
     return mapToStopPoints(
-      await get('/StopPoint/Type/$type'),
+      (await get(
+        '/StopPoint/Mode/${modeName}',
+      ))['stopPoints'],
+    );
+  }
+
+  @override
+  Future<List<StopPoint>> getStopPointsByType(
+    String type,
+  ) async {
+    return mapToStopPoints(
+      await get(
+        '/StopPoint/Type/$type',
+      ),
     );
   }
 }

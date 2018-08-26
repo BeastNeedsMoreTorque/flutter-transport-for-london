@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class TextDividerWidget extends StatelessWidget {
-  TextDividerWidget({Key key, @required this.text}) : super(key: key);
+class TextDivider extends StatelessWidget {
+  TextDivider(
+    this.data, {
+    Key key,
+  }) : super(key: key);
 
-  final String text;
+  final String data;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class TextDividerWidget extends StatelessWidget {
         children: <Widget>[
           new Container(
             child: new Text(
-              text,
+              data,
               style: new TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
@@ -27,6 +30,7 @@ class TextDividerWidget extends StatelessWidget {
       decoration: new BoxDecoration(
         color: Theme.of(context).dividerColor,
       ),
+      key: key,
     );
   }
 }

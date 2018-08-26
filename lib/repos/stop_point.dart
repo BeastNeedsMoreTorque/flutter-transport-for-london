@@ -12,6 +12,10 @@ abstract class StopPointRepo {
     String stopPointId,
   );
 
+  Future<List<StopPoint>> getStopPointsByModeName(
+    String modeName,
+  );
+
   Future<List<StopPoint>> getStopPointsByType(
     String type,
   );

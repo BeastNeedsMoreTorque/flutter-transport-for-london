@@ -8,6 +8,8 @@ part of 'stop_point.dart';
 
 StopPoint _$StopPointFromJson(Map<String, dynamic> json) => new StopPoint(
     naptanId: json['naptanId'] as String,
+    indicator: json['indicator'] as String,
+    stopLetter: json['stopLetter'] as String,
     modes: (json['modes'] as List)?.map((e) => e as String)?.toList(),
     icsCode: json['icsCode'] as String,
     stopType: json['stopType'] as String,
@@ -47,6 +49,8 @@ StopPoint _$StopPointFromJson(Map<String, dynamic> json) => new StopPoint(
 
 abstract class _$StopPointSerializerMixin {
   String get naptanId;
+  String get indicator;
+  String get stopLetter;
   List<String> get modes;
   String get icsCode;
   String get stopType;
@@ -65,6 +69,8 @@ abstract class _$StopPointSerializerMixin {
   double get lon;
   Map<String, dynamic> toJson() => <String, dynamic>{
         'naptanId': naptanId,
+        'indicator': indicator,
+        'stopLetter': stopLetter,
         'modes': modes,
         'icsCode': icsCode,
         'stopType': stopType,

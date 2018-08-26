@@ -1,68 +1,182 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/pages/stop_point_additional_properties.dart';
-import 'package:transport_for_london/pages/disruptions.dart';
-import 'package:transport_for_london/pages/edit_favourite_stop_point.dart';
 import 'package:transport_for_london/pages/home.dart';
-import 'package:transport_for_london/pages/line.dart';
-import 'package:transport_for_london/pages/line_statuses.dart';
-import 'package:transport_for_london/pages/lines.dart';
-import 'package:transport_for_london/pages/stop_point_arrival.dart';
-import 'package:transport_for_london/pages/stop_point_arrivals.dart';
-import 'package:transport_for_london/pages/stop_point.dart';
+import 'package:transport_for_london/pages/modes/lines/line.dart';
+import 'package:transport_for_london/pages/modes/lines/lines.dart';
+import 'package:transport_for_london/pages/modes/lines/routes/routes.dart';
+import 'package:transport_for_london/pages/modes/lines/statuses/statuses.dart';
+import 'package:transport_for_london/pages/modes/lines/stop_points/stop_points.dart';
+import 'package:transport_for_london/pages/modes/mode.dart';
+import 'package:transport_for_london/pages/modes/modes.dart';
+import 'package:transport_for_london/pages/modes/stop_points/additional_properties/additional_properties.dart';
+import 'package:transport_for_london/pages/modes/stop_points/arrivals/arrival.dart';
+import 'package:transport_for_london/pages/modes/stop_points/arrivals/arrivals.dart';
+import 'package:transport_for_london/pages/modes/stop_points/children/children.dart';
+import 'package:transport_for_london/pages/modes/stop_points/lines/lines.dart';
+import 'package:transport_for_london/pages/modes/stop_points/stop_point.dart';
+import 'package:transport_for_london/pages/modes/stop_points/stop_points.dart';
 import 'package:transport_for_london/pages/settings.dart';
-import 'package:transport_for_london/pages/stop_point_children.dart';
-import 'package:transport_for_london/pages/stop_point_lines.dart';
-import 'package:transport_for_london/pages/stop_points.dart';
 
-Handler disruptionsHandler = new Handler(
+Handler modeHandler = new Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new DisruptionsPage();
-  },
-);
-
-Handler editFavouriteStopPointHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new EditFavouriteStopPointPage(
-      stopPointLabel: params['stopPointLabel'].first,
+    return new ModePage(
+      modeName: params['modeName'].first,
     );
   },
 );
 
-Handler lineHandler = new Handler(
+Handler modeLineHandler = new Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new LinePage(
+    return new ModeLinePage(
       lineId: params['lineId'].first,
+      modeName: params['modeName'].first,
     );
   },
 );
 
-Handler lineStatusesHandler = new Handler(
+Handler modeLineRoutesHandler = new Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new LineStatusesPage(
+    return new ModeLineRoutesPage(
       lineId: params['lineId'].first,
+      modeName: params['modeName'].first,
     );
   },
 );
 
-Handler linesHandler = new Handler(
+Handler modeLineStatusesHandler = new Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new LinesPage();
+    return new ModeLineStatusesPage(
+      lineId: params['lineId'].first,
+      modeName: params['modeName'].first,
+    );
+  },
+);
+
+Handler modeLineStopPointsHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeLineStopPointsPage(
+      lineId: params['lineId'].first,
+      modeName: params['modeName'].first,
+    );
+  },
+);
+
+Handler modeLinesHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeLinesPage(
+      modeName: params['modeName'].first,
+    );
+  },
+);
+
+Handler modeStopPointHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeStopPointPage(
+      modeName: params['modeName'].first,
+      stopPointId: params['stopPointId'].first,
+    );
+  },
+);
+
+Handler modeStopPointAdditionalPropertiesHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeStopPointAdditionalPropertiesPage(
+      modeName: params['modeName'].first,
+      stopPointId: params['stopPointId'].first,
+    );
+  },
+);
+
+Handler modeStopPointArrivalHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeStopPointArrivalPage(
+      arrivalId: params['arrivalId'].first,
+      modeName: params['modeName'].first,
+      stopPointId: params['stopPointId'].first,
+    );
+  },
+);
+
+Handler modeStopPointArrivalsHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeStopPointArrivalsPage(
+      modeName: params['modeName'].first,
+      stopPointId: params['stopPointId'].first,
+    );
+  },
+);
+
+Handler modeStopPointChildrenHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeStopPointChildrenPage(
+      modeName: params['modeName'].first,
+      stopPointId: params['stopPointId'].first,
+    );
+  },
+);
+
+Handler modeStopPointLinesHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeStopPointLinesPage(
+      modeName: params['modeName'].first,
+      stopPointId: params['stopPointId'].first,
+    );
+  },
+);
+
+Handler modeStopPointsHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModeStopPointsPage(
+      modeName: params['modeName'].first,
+    );
+  },
+);
+
+Handler modesHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new ModesPage();
   },
 );
 
@@ -90,81 +204,5 @@ Handler settingsHandler = new Handler(
     Map<String, List<String>> params,
   ) {
     return new SettingsPage();
-  },
-);
-
-Handler stopPointAdditionalPropertiesHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new StopPointAdditionalPropertiesPage(
-      stopPointId: params['stopPointId'].first,
-    );
-  },
-);
-
-Handler stopPointArrivalHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new StopPointArrivalPage(
-      arrivalId: params['arrivalId'].first,
-      stopPointId: params['stopPointId'].first,
-    );
-  },
-);
-
-Handler stopPointArrivalsHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new StopPointArrivalsPage(
-      stopPointId: params['stopPointId'].first,
-    );
-  },
-);
-
-Handler stopPointChildrenHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new StopPointChildrenPage(
-      stopPointId: params['stopPointId'].first,
-    );
-  },
-);
-
-Handler stopPointLinesHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new StopPointLinesPage(
-      stopPointId: params['stopPointId'].first,
-    );
-  },
-);
-
-Handler stopPointHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new StopPointPage(
-      stopPointId: params['stopPointId'].first,
-    );
-  },
-);
-
-Handler stopPointsHandler = new Handler(
-  handlerFunc: (
-    BuildContext context,
-    Map<String, List<String>> params,
-  ) {
-    return new StopPointsPage();
   },
 );

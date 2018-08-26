@@ -20,9 +20,16 @@ class MockStopPointRepo implements StopPointRepo {
   }
 
   @override
-  Future<List<StopPoint>> getStopPointsByType([
-    String type = 'NaptanMetroStation',
-  ]) {
+  Future<List<StopPoint>> getStopPointsByModeName(
+    String modeName,
+  ) {
+    // TODO: implement getStopPointsByModeName
+  }
+
+  @override
+  Future<List<StopPoint>> getStopPointsByType(
+    String type,
+  ) {
     // TODO: implement getStopPointsByType
   }
 }

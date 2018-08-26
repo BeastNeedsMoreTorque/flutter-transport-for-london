@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/models/page.dart';
-import 'package:transport_for_london/widgets/drawer_page.dart';
 
-class DrawerWidget extends StatelessWidget {
-  final List<Page> _pages = [
+class AppDrawer extends Drawer {
+  AppDrawer({Key key})
+      : super(
+          child: new ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return new ListTile(
+                leading: _pages[index].icon,
+                onTap: () => App.router.navigateTo(
+                      context,
+                      _pages[index].route,
+                    ),
+                title: new Text(_pages[index].title),
+              );
+            },
+            itemCount: _pages.length,
+          ),
+          key: key,
+        );
+
+  static final List<Page> _pages = [
     new Page(
       icon: new Icon(Icons.home),
       route: '/',
       title: 'Home',
     ),
     new Page(
-      icon: new Icon(Icons.reorder),
-      route: '/lines',
-      title: 'Lines',
-    ),
-    new Page(
-      icon: new Icon(Icons.warning),
-      route: '/disruptions',
-      title: 'Disruptions',
-    ),
-    new Page(
-      icon: new Icon(Icons.place),
-      route: '/stop_points',
-      title: 'Stop Points',
+      icon: new Icon(Icons.transfer_within_a_station),
+      route: '/modes',
+      title: 'Modes',
     ),
     new Page(
       icon: new Icon(Icons.settings),
@@ -31,18 +38,4 @@ class DrawerWidget extends StatelessWidget {
       title: 'Settings',
     ),
   ];
-
-  @override
-  Widget build(BuildContext context) {
-    return new Drawer(
-      child: new ListView(
-        children: _pages.map((Page page) {
-          return new DrawerPageWidget(
-            onTap: () => App.router.navigateTo(context, page.route),
-            page: page,
-          );
-        }).toList(),
-      ),
-    );
-  }
 }

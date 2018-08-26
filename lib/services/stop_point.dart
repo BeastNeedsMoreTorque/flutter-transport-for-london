@@ -6,9 +6,9 @@ import 'package:transport_for_london/repos/stop_point.dart';
 import 'package:transport_for_london/types/predicate.dart';
 
 class StopPointService {
-  StopPointService(this.stopPointRepo);
+  StopPointService(this._stopPointRepo);
 
-  final StopPointRepo stopPointRepo;
+  final StopPointRepo _stopPointRepo;
 
   Future<Prediction> getArrivalByStopPointIdArrivalId(
     String stopPointId,
@@ -18,7 +18,9 @@ class StopPointService {
       return prediction.id == arrivalId;
     };
 
-    return (await getArrivalsByStopPointId(stopPointId))
+    return (await getArrivalsByStopPointId(
+      stopPointId,
+    ))
         .where(arrivalIdPredicate)
         .first;
   }
@@ -26,7 +28,7 @@ class StopPointService {
   Future<List<Prediction>> getArrivalsByStopPointId(
     String stopPointId,
   ) {
-    return stopPointRepo.getArrivalsByStopPointId(
+    return _stopPointRepo.getArrivalsByStopPointId(
       stopPointId,
     );
   }
@@ -34,25 +36,39 @@ class StopPointService {
   Future<StopPoint> getStopPointByStopPointId(
     String stopPointId,
   ) {
-    return stopPointRepo.getStopPointByStopPointId(
+    return _stopPointRepo.getStopPointByStopPointId(
       stopPointId,
     );
   }
 
-  Future<List<StopPoint>> getStopPointsByType([
-    String type = 'NaptanMetroStation',
-  ]) {
-    return stopPointRepo.getStopPointsByType(type);
+  Future<List<StopPoint>> getStopPointsByModeName(
+    String modeName,
+  ) {
+    return _stopPointRepo.getStopPointsByModeName(
+      modeName,
+    );
   }
 
-  Future<List<StopPoint>> getStopPointsByTypeMode([
+  Future<List<StopPoint>> getStopPointsByType(
+    String type,
+  ) {
+    return _stopPointRepo.getStopPointsByType(
+      type,
+    );
+  }
+
+  Future<List<StopPoint>> getStopPointsByTypeModeName([
     String type = 'NaptanMetroStation',
-    String mode = 'tube',
+    String modeName = 'tube',
   ]) async {
     Predicate<StopPoint> modePredicate = (stopPoint) {
-      return stopPoint.modes.contains(mode);
+      return stopPoint.modes.contains(modeName);
     };
 
-    return (await getStopPointsByType(type)).where(modePredicate).toList();
+    return (await getStopPointsByType(
+      type,
+    ))
+        .where(modePredicate)
+        .toList();
   }
 }

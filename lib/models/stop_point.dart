@@ -10,6 +10,8 @@ part 'stop_point.g.dart';
 class StopPoint extends Object with _$StopPointSerializerMixin {
   StopPoint({
     this.naptanId,
+    this.indicator,
+    this.stopLetter,
     this.modes,
     this.icsCode,
     this.stopType,
@@ -29,6 +31,8 @@ class StopPoint extends Object with _$StopPointSerializerMixin {
   });
 
   String naptanId;
+  String indicator;
+  String stopLetter;
   List<String> modes;
   String icsCode;
   String stopType;

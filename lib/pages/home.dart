@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/models/configuration.dart';
@@ -35,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
           return _buildHomeScrollView();
         } else {
-          return new LoadingSpinnerWidget();
+          return new LoadingSpinner();
         }
       },
       future: preferencesService.getConfiguration(),
@@ -62,17 +60,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildFavouriteStopPointListTile(Icon icon, StopPoint stopPoint) {
-    return new FavouriteStopPointListTileWidget(
-      icon: icon,
+    return new FavouriteStopPointListTile(
+      stopPoint,
+      icon,
       onTap: stopPoint != null
-          ? () => _handleFavouriteStopPointListTileTap(stopPoint)
+          ? () => App.router.navigateTo(
+                context,
+                '/modes/tube/stop_points/${stopPoint.id}',
+              )
           : null,
-      stopPoint: stopPoint,
     );
-  }
-
-  Future<void> _handleFavouriteStopPointListTileTap(StopPoint stopPoint) async {
-    await App.router.navigateTo(context, '/stop_points/${stopPoint.id}');
   }
 
   @override
@@ -80,7 +77,7 @@ class _HomePageState extends State<HomePage> {
     return new Scaffold(
       appBar: _buildAppBar(),
       body: _buildHome(),
-      drawer: new DrawerWidget(),
+      drawer: new AppDrawer(),
     );
   }
 }

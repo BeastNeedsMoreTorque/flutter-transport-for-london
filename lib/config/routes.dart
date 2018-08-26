@@ -11,59 +11,65 @@ class Routes {
     );
 
     router.define(
-      '/disruptions',
-      handler: disruptionsHandler,
-    );
-
-    router.define(
-      '/lines',
-      handler: linesHandler,
+      '/modes',
+      handler: modesHandler,
     );
     router.define(
-      '/lines/:lineId',
-      handler: lineHandler,
+      '/modes/:modeName',
+      handler: modeHandler,
     );
     router.define(
-      '/lines/:lineId/statuses',
-      handler: lineStatusesHandler,
+      '/modes/:modeName/lines',
+      handler: modeLinesHandler,
+    );
+    router.define(
+      '/modes/:modeName/lines/:lineId',
+      handler: modeLineHandler,
+    );
+    router.define(
+      '/modes/:modeName/lines/:lineId/routes',
+      handler: modeLineRoutesHandler,
+    );
+    router.define(
+      '/modes/:modeName/lines/:lineId/statuses',
+      handler: modeLineStatusesHandler,
+    );
+    router.define(
+      '/modes/:modeName/lines/:lineId/stop_points',
+      handler: modeLineStopPointsHandler,
+    );
+    router.define(
+      '/modes/:modeName/stop_points',
+      handler: modeStopPointsHandler,
+    );
+    router.define(
+      '/modes/:modeName/stop_points/:stopPointId',
+      handler: modeStopPointHandler,
+    );
+    router.define(
+      '/modes/:modeName/stop_points/:stopPointId/additional_properties',
+      handler: modeStopPointAdditionalPropertiesHandler,
+    );
+    router.define(
+      '/modes/:modeName/stop_points/:stopPointId/arrivals',
+      handler: modeStopPointArrivalsHandler,
+    );
+    router.define(
+      '/modes/:modeName/stop_points/:stopPointId/arrivals/:arrivalId',
+      handler: modeStopPointArrivalHandler,
+    );
+    router.define(
+      '/modes/:modeName/stop_points/:stopPointId/children',
+      handler: modeStopPointChildrenHandler,
+    );
+    router.define(
+      '/modes/:modeName/stop_points/:stopPointId/lines',
+      handler: modeStopPointLinesHandler,
     );
 
     router.define(
       '/settings',
       handler: settingsHandler,
-    );
-
-    router.define(
-      '/stop_points',
-      handler: stopPointsHandler,
-    );
-    router.define(
-      '/stop_points/:stopPointId',
-      handler: stopPointHandler,
-    );
-    router.define(
-      '/stop_points/:stopPointId/additional_properties',
-      handler: stopPointAdditionalPropertiesHandler,
-    );
-    router.define(
-      '/stop_points/:stopPointId/arrivals',
-      handler: stopPointArrivalsHandler,
-    );
-    router.define(
-      '/stop_points/:stopPointId/arrivals/:arrivalId',
-      handler: stopPointArrivalHandler,
-    );
-    router.define(
-      '/stop_points/:stopPointId/children',
-      handler: stopPointChildrenHandler,
-    );
-    router.define(
-      '/stop_points/:stopPointId/lines',
-      handler: stopPointLinesHandler,
-    );
-    router.define(
-      '/stop_points/favourites/:stopPointLabel/edit',
-      handler: editFavouriteStopPointHandler,
     );
   }
 }

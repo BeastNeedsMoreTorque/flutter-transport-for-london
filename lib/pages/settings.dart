@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/models/configuration.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/preferences.dart';
@@ -7,7 +6,7 @@ import 'package:transport_for_london/types/callback.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
 import 'package:transport_for_london/widgets/favourite_stop_point_list_tile.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
-import 'package:transport_for_london/widgets/sliver_text_divider.dart';
+import 'package:transport_for_london/widgets/text_divider.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
           return _buildSettingsScrollView();
         } else {
-          return new LoadingSpinnerWidget();
+          return new LoadingSpinner();
         }
       },
       future: preferencesService.getConfiguration(),
@@ -45,7 +44,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildSettingsScrollView() {
     return new CustomScrollView(
       slivers: <Widget>[
-        new SliverTextDividerWidget(text: 'Stop Points'),
+        new SliverToBoxAdapter(
+          child: new TextDivider('Stop Points'),
+        ),
         new SliverList(
           delegate: new SliverChildListDelegate([
             _buildStopPointListTile(
@@ -79,22 +80,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildStopPointListTile(
-    Callback<StopPoint> callback,
+    Callback<void, StopPoint> callback,
     Icon icon,
     String stopPointLabel,
     StopPoint stopPoint,
   ) {
-    return new FavouriteStopPointListTileWidget(
-      icon: icon,
-      stopPoint: stopPoint,
-      onTap: () async {
-        StopPoint editedStopPoint = await App.router.navigateTo(
-          context,
-          'stop_points/favourites/$stopPointLabel/edit',
-        );
-
-        callback(editedStopPoint);
-      },
+    return new FavouriteStopPointListTile(
+      stopPoint,
+      icon,
     );
   }
 
@@ -103,7 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return new Scaffold(
       appBar: _buildAppBar(),
       body: _buildSettings(),
-      drawer: new DrawerWidget(),
+      drawer: new AppDrawer(),
     );
   }
 }

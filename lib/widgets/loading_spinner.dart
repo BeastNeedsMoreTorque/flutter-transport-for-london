@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LoadingSpinnerWidget extends StatelessWidget {
+class LoadingSpinner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Column(
