@@ -8,16 +8,20 @@ import 'package:transport_for_london/models/line_status.dart';
 import 'package:transport_for_london/models/matched_route.dart';
 import 'package:transport_for_london/models/mode.dart';
 import 'package:transport_for_london/models/stop_point.dart';
-import 'package:transport_for_london/repos/http/http.dart';
+import 'package:transport_for_london/io/http.dart';
 import 'package:transport_for_london/repos/line.dart';
 
-class HttpLineRepo extends Http implements LineRepo {
+class ProdLineRepo implements LineRepo {
+  ProdLineRepo(this._http);
+
+  final Http _http;
+
   @override
   Future<List<Disruption>> getDisruptionsByModeName(
     String modeName,
   ) async {
     return mapToDisruptions(
-      await get('/Line/Mode/$modeName/Disruption'),
+      await _http.get('/Line/Mode/$modeName/Disruption'),
     );
   }
 
@@ -26,7 +30,7 @@ class HttpLineRepo extends Http implements LineRepo {
     String lineId,
   ) async {
     return mapToLine(
-      ((await get(
+      ((await _http.get(
         '/Line/$lineId',
       )) as List)
           .first,
@@ -36,7 +40,7 @@ class HttpLineRepo extends Http implements LineRepo {
   @override
   Future<List<Mode>> getLineModes() async {
     return mapToModes(
-      await get('/Line/Meta/Modes'),
+      await _http.get('/Line/Meta/Modes'),
     );
   }
 
@@ -46,7 +50,7 @@ class HttpLineRepo extends Http implements LineRepo {
   ) async {
     return mapToRoutes(
       (mapToLine(
-        await get('/Line/${lineId}/Route'),
+        await _http.get('/Line/${lineId}/Route'),
       ))
           .routeSections,
     );
@@ -57,7 +61,7 @@ class HttpLineRepo extends Http implements LineRepo {
     String lineId,
   ) async {
     return mapToStatuses(
-      ((await get(
+      ((await _http.get(
         '/Line/$lineId/Status',
       )) as List)
           .first,
@@ -71,7 +75,7 @@ class HttpLineRepo extends Http implements LineRepo {
     DateTime toDate,
   ) async {
     return mapToStatuses(
-      (await get(
+      (await _http.get(
         '/Line/$lineId/Status/${fromDate.toIso8601String().substring(0, 10)}/to/${toDate.toIso8601String().substring(0, 10)}',
       ) as List)
           .first,
@@ -83,7 +87,7 @@ class HttpLineRepo extends Http implements LineRepo {
     String modeName,
   ) async {
     return mapToLines(
-      await get('/Line/Mode/$modeName'),
+      await _http.get('/Line/Mode/$modeName'),
     );
   }
 
@@ -92,7 +96,7 @@ class HttpLineRepo extends Http implements LineRepo {
     String lineId,
   ) async {
     return mapToStopPoints(
-      await get('/Line/$lineId/StopPoints'),
+      await _http.get('/Line/$lineId/StopPoints'),
     );
   }
 }

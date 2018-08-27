@@ -3,16 +3,20 @@ import 'dart:async';
 import 'package:transport_for_london/mappings/stop_point.dart';
 import 'package:transport_for_london/models/prediction.dart';
 import 'package:transport_for_london/models/stop_point.dart';
-import 'package:transport_for_london/repos/http/http.dart';
+import 'package:transport_for_london/io/http.dart';
 import 'package:transport_for_london/repos/stop_point.dart';
 
-class HttpStopPointRepo extends Http implements StopPointRepo {
+class ProdStopPointRepo implements StopPointRepo {
+  ProdStopPointRepo(this._http);
+
+  final Http _http;
+
   @override
   Future<List<Prediction>> getArrivalsByStopPointId(
     String stopPointId,
   ) async {
     return mapToPredictions(
-      await get(
+      await _http.get(
         '/StopPoint/$stopPointId/Arrivals',
       ),
     );
@@ -23,7 +27,7 @@ class HttpStopPointRepo extends Http implements StopPointRepo {
     String stopPointId,
   ) async {
     return mapToStopPoint(
-      await get(
+      await _http.get(
         '/StopPoint/$stopPointId',
       ),
     );
@@ -34,7 +38,7 @@ class HttpStopPointRepo extends Http implements StopPointRepo {
     String modeName,
   ) async {
     return mapToStopPoints(
-      (await get(
+      (await _http.get(
         '/StopPoint/Mode/${modeName}',
       ))['stopPoints'],
     );
@@ -45,7 +49,7 @@ class HttpStopPointRepo extends Http implements StopPointRepo {
     String type,
   ) async {
     return mapToStopPoints(
-      await get(
+      await _http.get(
         '/StopPoint/Type/$type',
       ),
     );

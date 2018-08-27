@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/models/configuration.dart';
-import 'package:transport_for_london/models/stop_point.dart';
-import 'package:transport_for_london/services/preferences.dart';
+import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/models/favourite.dart';
+import 'package:transport_for_london/services/preference.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
-import 'package:transport_for_london/widgets/favourite_stop_point_list_tile.dart';
+import 'package:transport_for_london/widgets/favourite_list_tile.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
+import 'package:transport_for_london/widgets/text_divider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,8 +14,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Configuration configuration;
-  PreferencesService preferencesService = new PreferencesService();
+  _HomePageState() {
+    _preferenceService = new DependencyInjector().preferenceService;
+  }
+
+  List<Favourite> _favourites;
+  PreferenceService _preferenceService;
 
   AppBar _buildAppBar() {
     return new AppBar(
@@ -23,53 +28,53 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildHome() {
-    return new FutureBuilder<Configuration>(
+    return new FutureBuilder<List<Favourite>>(
       builder: (
         BuildContext context,
-        AsyncSnapshot<Configuration> snapshot,
+        AsyncSnapshot<List<Favourite>> snapshot,
       ) {
         if (snapshot.hasData) {
-          configuration = snapshot.data;
+          _favourites = snapshot.data;
 
           return _buildHomeScrollView();
         } else {
           return new LoadingSpinner();
         }
       },
-      future: preferencesService.getConfiguration(),
+      future: _preferenceService.getFavourites(),
     );
   }
 
   Widget _buildHomeScrollView() {
-    return new CustomScrollView(
-      slivers: <Widget>[
-        new SliverList(
-          delegate: new SliverChildListDelegate([
-            _buildFavouriteStopPointListTile(
-              new Icon(Icons.home),
-              configuration.home,
+    if (_favourites.length > 0) {
+      return new CustomScrollView(
+        slivers: <Widget>[
+          new SliverToBoxAdapter(
+            child: new TextDivider('Favourites'),
+          ),
+          new SliverList(
+            delegate: new SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return new FavouriteListTile(
+                  _favourites[index],
+                  onTap: () {
+                    App.router.navigateTo(
+                      context,
+                      _favourites[index].path,
+                    );
+                  },
+                );
+              },
+              childCount: _favourites.length,
             ),
-            _buildFavouriteStopPointListTile(
-              new Icon(Icons.work),
-              configuration.work,
-            ),
-          ]),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFavouriteStopPointListTile(Icon icon, StopPoint stopPoint) {
-    return new FavouriteStopPointListTile(
-      stopPoint,
-      icon,
-      onTap: stopPoint != null
-          ? () => App.router.navigateTo(
-                context,
-                '/modes/tube/stop_points/${stopPoint.id}',
-              )
-          : null,
-    );
+          ),
+        ],
+      );
+    } else {
+      return new Center(
+        child: new Text('Welcome'),
+      );
+    }
   }
 
   @override
