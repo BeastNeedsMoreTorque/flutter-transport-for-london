@@ -36,6 +36,6 @@ List<MatchedRoute> mapToRoutes(List<dynamic> values) {
   return values.map(mapToRoute).toList();
 }
 
-List<LineStatus> mapToStatuses(value) {
-  return new Line.fromJson(value).lineStatuses;
+List<LineStatus> mapToStatuses(dynamic value) {
+  return mapToLine(value).lineStatuses;
 }

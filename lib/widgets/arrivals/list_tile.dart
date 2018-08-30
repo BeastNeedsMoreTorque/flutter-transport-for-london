@@ -5,9 +5,11 @@ import 'package:transport_for_london/widgets/single_line_text.dart';
 class ArrivalListTile extends ListTile {
   ArrivalListTile(
     Prediction arrival, {
+    Key key,
     VoidCallback onTap,
   }) : super(
           isThreeLine: true,
+          key: key,
           onTap: onTap,
           subtitle: new Column(
             children: <Widget>[
@@ -18,10 +20,12 @@ class ArrivalListTile extends ListTile {
           ),
           title: new SingleLineText(arrival.towards ?? 'Unknown'),
           trailing: new Text(
-            arrival.expectedArrival
-                .toLocal()
-                .toIso8601String()
-                .substring(11, 16),
+            arrival.expectedArrival != null
+                ? arrival.expectedArrival
+                    .toLocal()
+                    .toIso8601String()
+                    .substring(11, 16)
+                : '-',
           ),
         );
 }

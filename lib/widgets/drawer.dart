@@ -9,10 +9,12 @@ class AppDrawer extends Drawer {
             itemBuilder: (BuildContext context, int index) {
               return new ListTile(
                 leading: _pages[index].icon,
-                onTap: () => App.router.navigateTo(
-                      context,
-                      _pages[index].route,
-                    ),
+                onTap: () {
+                  App.router.navigateTo(
+                    context,
+                    _pages[index].route,
+                  );
+                },
                 title: new Text(_pages[index].title),
               );
             },
