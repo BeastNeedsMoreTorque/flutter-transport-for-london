@@ -35,6 +35,11 @@ class AppDrawer extends Drawer {
       title: 'Modes',
     ),
     new Page(
+      icon: new Icon(Icons.directions_bike),
+      route: '/bike_points',
+      title: 'Bike Points',
+    ),
+    new Page(
       icon: new Icon(Icons.settings),
       route: '/settings',
       title: 'Settings',

@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-class Http {
+class AppHttp {
   final String _authority = 'api.tfl.gov.uk';
   final Map<String, String> _queryParameters = {
     'app_id': '6b52d4ed',

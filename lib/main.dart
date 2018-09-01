@@ -6,7 +6,7 @@ import 'package:transport_for_london/enums/environment.dart';
 import 'package:transport_for_london/injectors/dependency.dart';
 
 void main() {
-  DependencyInjector.configure(Environment.PROD);
+  DependencyInjector.environment = Environment.PROD;
 
   runApp(new MyApp());
 }

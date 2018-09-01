@@ -11,6 +11,19 @@ class Routes {
     );
 
     router.define(
+      '/bike_points',
+      handler: bikePointsHandler,
+    );
+    router.define(
+      '/bike_points/:bikePointId',
+      handler: bikePointHandler,
+    );
+    router.define(
+      '/bike_points/:bikePointId/additional_properties',
+      handler: bikePointAdditionalPropertiesHandler,
+    );
+
+    router.define(
       '/modes',
       handler: modesHandler,
     );

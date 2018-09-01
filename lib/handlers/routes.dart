@@ -1,5 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:transport_for_london/pages/bike_points/additional_properties/additional_properties.dart';
+import 'package:transport_for_london/pages/bike_points/bike_point.dart';
+import 'package:transport_for_london/pages/bike_points/bike_points.dart';
 import 'package:transport_for_london/pages/home.dart';
 import 'package:transport_for_london/pages/modes/lines/line.dart';
 import 'package:transport_for_london/pages/modes/lines/lines.dart';
@@ -16,6 +19,37 @@ import 'package:transport_for_london/pages/modes/stop_points/lines/lines.dart';
 import 'package:transport_for_london/pages/modes/stop_points/stop_point.dart';
 import 'package:transport_for_london/pages/modes/stop_points/stop_points.dart';
 import 'package:transport_for_london/pages/settings.dart';
+
+Handler bikePointHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new BikePointPage(
+      bikePointId: params['bikePointId'].first,
+    );
+  },
+);
+
+Handler bikePointAdditionalPropertiesHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new BikePointAdditionalPropertiesPage(
+      bikePointId: params['bikePointId'].first,
+    );
+  },
+);
+
+Handler bikePointsHandler = new Handler(
+  handlerFunc: (
+    BuildContext context,
+    Map<String, List<String>> params,
+  ) {
+    return new BikePointsPage();
+  },
+);
 
 Handler modeHandler = new Handler(
   handlerFunc: (

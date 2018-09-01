@@ -9,7 +9,7 @@ import 'package:transport_for_london/repos/stop_point.dart';
 class ProdStopPointRepo implements StopPointRepo {
   ProdStopPointRepo(this._http);
 
-  final Http _http;
+  final AppHttp _http;
 
   @override
   Future<List<Prediction>> getArrivalsByStopPointId(

@@ -3,6 +3,7 @@ import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/injectors/dependency.dart';
 import 'package:transport_for_london/models/mode.dart';
 import 'package:transport_for_london/services/line.dart';
+import 'package:transport_for_london/widgets/drawer.dart';
 import 'package:transport_for_london/widgets/loading_spinner_future_builder.dart';
 
 class ModesPage extends StatefulWidget {
@@ -57,6 +58,7 @@ class _ModesPageState extends State<ModesPage> {
         title: new Text('Modes'),
       ),
       body: _buildModes(),
+      drawer: new AppDrawer(),
     );
   }
 }

@@ -14,7 +14,7 @@ import 'package:transport_for_london/repos/line.dart';
 class ProdLineRepo implements LineRepo {
   ProdLineRepo(this._http);
 
-  final Http _http;
+  final AppHttp _http;
 
   @override
   Future<List<Disruption>> getDisruptionsByModeName(
