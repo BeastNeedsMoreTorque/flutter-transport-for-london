@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'matched_route.g.dart';
 
 @JsonSerializable()
-class MatchedRoute extends Object with _$MatchedRouteSerializerMixin {
+class MatchedRoute {
   MatchedRoute({
     this.name,
     this.direction,
@@ -28,5 +28,9 @@ class MatchedRoute extends Object with _$MatchedRouteSerializerMixin {
 
   factory MatchedRoute.fromJson(Map<String, dynamic> json) {
     return _$MatchedRouteFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$MatchedRouteToJson(this);
   }
 }

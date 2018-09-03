@@ -12,7 +12,7 @@ class ModeLineStopPointListTile extends StopPointListTile {
           stopPoint,
           key: key,
           onTap: onTap,
-          subtitle: new SingleLineText(
+          subtitle: SingleLineText(
             stopPoint.lines.map((line) => line.name).join(', '),
           ),
         );

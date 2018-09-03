@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'line_mode_group.g.dart';
 
 @JsonSerializable()
-class LineModeGroup extends Object with _$LineModeGroupSerializerMixin {
+class LineModeGroup {
   LineModeGroup({
     this.modeName,
     this.lineIdentifier,
@@ -14,5 +14,9 @@ class LineModeGroup extends Object with _$LineModeGroupSerializerMixin {
 
   factory LineModeGroup.fromJson(Map<String, dynamic> json) {
     return _$LineModeGroupFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$LineModeGroupToJson(this);
   }
 }

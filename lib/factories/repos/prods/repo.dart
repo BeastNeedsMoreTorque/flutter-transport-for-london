@@ -15,9 +15,9 @@ class ProdRepoFactory implements RepoFactory {
   final AppHttp _http;
 
   ProdRepoFactory(this._http) {
-    _bikePointRepo = new ProdBikePointRepo(_http);
-    _lineRepo = new ProdLineRepo(_http);
-    _stopPointRepo = new ProdStopPointRepo(_http);
+    _bikePointRepo = ProdBikePointRepo(_http);
+    _lineRepo = ProdLineRepo(_http);
+    _stopPointRepo = ProdStopPointRepo(_http);
   }
 
   @override

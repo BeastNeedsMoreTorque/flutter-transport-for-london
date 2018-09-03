@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'mode.g.dart';
 
 @JsonSerializable()
-class Mode extends Object with _$ModeSerializerMixin {
+class Mode {
   Mode({
     this.isTflService,
     this.isFarePaying,
@@ -18,5 +18,9 @@ class Mode extends Object with _$ModeSerializerMixin {
 
   factory Mode.fromJson(Map<String, dynamic> json) {
     return _$ModeFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ModeToJson(this);
   }
 }

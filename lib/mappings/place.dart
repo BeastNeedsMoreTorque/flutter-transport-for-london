@@ -2,7 +2,7 @@ import 'package:transport_for_london/models/place.dart';
 import 'package:transport_for_london/utils/place.dart';
 
 Place mapToPlace(dynamic value) {
-  return new Place.fromJson(value);
+  return Place.fromJson(value);
 }
 
 List<Place> mapToPlaces(List<dynamic> values) {

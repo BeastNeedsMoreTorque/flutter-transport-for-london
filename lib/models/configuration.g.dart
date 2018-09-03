@@ -3,12 +3,12 @@
 part of 'configuration.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Configuration _$ConfigurationFromJson(Map<String, dynamic> json) =>
-    new Configuration();
-
-abstract class _$ConfigurationSerializerMixin {
-  Map<String, dynamic> toJson() => <String, dynamic>{};
+Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
+  return Configuration();
 }
+
+Map<String, dynamic> _$ConfigurationToJson(Configuration instance) =>
+    <String, dynamic>{};

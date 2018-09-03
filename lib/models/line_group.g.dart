@@ -3,19 +3,17 @@
 part of 'line_group.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-LineGroup _$LineGroupFromJson(Map<String, dynamic> json) => new LineGroup(
-    stationAtcoCode: json['stationAtcoCode'] as String,
-    lineIdentifier:
-        (json['lineIdentifier'] as List)?.map((e) => e as String)?.toList());
-
-abstract class _$LineGroupSerializerMixin {
-  String get stationAtcoCode;
-  List<String> get lineIdentifier;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'stationAtcoCode': stationAtcoCode,
-        'lineIdentifier': lineIdentifier
-      };
+LineGroup _$LineGroupFromJson(Map<String, dynamic> json) {
+  return LineGroup(
+      stationAtcoCode: json['stationAtcoCode'] as String,
+      lineIdentifier:
+          (json['lineIdentifier'] as List)?.map((e) => e as String)?.toList());
 }
+
+Map<String, dynamic> _$LineGroupToJson(LineGroup instance) => <String, dynamic>{
+      'stationAtcoCode': instance.stationAtcoCode,
+      'lineIdentifier': instance.lineIdentifier
+    };

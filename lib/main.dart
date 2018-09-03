@@ -3,27 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
 import 'package:transport_for_london/config/routes.dart';
 import 'package:transport_for_london/enums/environment.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 
 void main() {
-  DependencyInjector.environment = Environment.PROD;
+  ServiceLocator.environment = Environment.PROD;
 
-  runApp(new MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp() {
-    final Router router = new Router();
+    final Router router = Router();
     Routes.configureRoutes(router);
     App.router = router;
   }
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       onGenerateRoute: App.router.generator,
       supportedLocales: [const Locale('en', 'GB')],
-      theme: new ThemeData.dark(),
+      theme: ThemeData.dark(),
       title: 'Transport for London',
     );
   }

@@ -3,22 +3,19 @@
 part of 'known_journey.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-KnownJourney _$KnownJourneyFromJson(Map<String, dynamic> json) =>
-    new KnownJourney(
-        hour: json['hour'] as String,
-        minute: json['minute'] as String,
-        intervalId: json['intervalId'] as int);
-
-abstract class _$KnownJourneySerializerMixin {
-  String get hour;
-  String get minute;
-  int get intervalId;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'hour': hour,
-        'minute': minute,
-        'intervalId': intervalId
-      };
+KnownJourney _$KnownJourneyFromJson(Map<String, dynamic> json) {
+  return KnownJourney(
+      hour: json['hour'] as String,
+      minute: json['minute'] as String,
+      intervalId: json['intervalId'] as int);
 }
+
+Map<String, dynamic> _$KnownJourneyToJson(KnownJourney instance) =>
+    <String, dynamic>{
+      'hour': instance.hour,
+      'minute': instance.minute,
+      'intervalId': instance.intervalId
+    };

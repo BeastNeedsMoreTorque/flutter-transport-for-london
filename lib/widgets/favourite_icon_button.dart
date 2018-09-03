@@ -6,7 +6,7 @@ class FavouriteIconButton extends IconButton {
     VoidCallback onPressed, {
     Key key,
   }) : super(
-          icon: new Icon(isFavourite ? Icons.favorite : Icons.favorite_border),
+          icon: Icon(isFavourite ? Icons.favorite : Icons.favorite_border),
           key: key,
           onPressed: onPressed,
         );

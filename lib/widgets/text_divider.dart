@@ -11,23 +11,23 @@ class TextDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: new Row(
+    return Container(
+      child: Row(
         children: <Widget>[
-          new Container(
-            child: new Text(
+          Container(
+            child: Text(
               data,
-              style: new TextStyle(
+              style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            padding: new EdgeInsets.symmetric(vertical: 16.0),
+            padding: EdgeInsets.symmetric(vertical: 16.0),
           ),
         ],
         mainAxisAlignment: MainAxisAlignment.center,
       ),
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
         color: Theme.of(context).dividerColor,
       ),
       key: key,

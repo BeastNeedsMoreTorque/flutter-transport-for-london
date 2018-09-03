@@ -3,44 +3,35 @@
 part of 'matched_route.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-MatchedRoute _$MatchedRouteFromJson(Map<String, dynamic> json) =>
-    new MatchedRoute(
-        name: json['name'] as String,
-        direction: json['direction'] as String,
-        originationName: json['originationName'] as String,
-        destinationName: json['destinationName'] as String,
-        originator: json['originator'] as String,
-        destination: json['destination'] as String,
-        serviceType: json['serviceType'] as String,
-        validTo: json['validTo'] == null
-            ? null
-            : DateTime.parse(json['validTo'] as String),
-        validFrom: json['validFrom'] == null
-            ? null
-            : DateTime.parse(json['validFrom'] as String));
-
-abstract class _$MatchedRouteSerializerMixin {
-  String get name;
-  String get direction;
-  String get originationName;
-  String get destinationName;
-  String get originator;
-  String get destination;
-  String get serviceType;
-  DateTime get validTo;
-  DateTime get validFrom;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'name': name,
-        'direction': direction,
-        'originationName': originationName,
-        'destinationName': destinationName,
-        'originator': originator,
-        'destination': destination,
-        'serviceType': serviceType,
-        'validTo': validTo?.toIso8601String(),
-        'validFrom': validFrom?.toIso8601String()
-      };
+MatchedRoute _$MatchedRouteFromJson(Map<String, dynamic> json) {
+  return MatchedRoute(
+      name: json['name'] as String,
+      direction: json['direction'] as String,
+      originationName: json['originationName'] as String,
+      destinationName: json['destinationName'] as String,
+      originator: json['originator'] as String,
+      destination: json['destination'] as String,
+      serviceType: json['serviceType'] as String,
+      validTo: json['validTo'] == null
+          ? null
+          : DateTime.parse(json['validTo'] as String),
+      validFrom: json['validFrom'] == null
+          ? null
+          : DateTime.parse(json['validFrom'] as String));
 }
+
+Map<String, dynamic> _$MatchedRouteToJson(MatchedRoute instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'direction': instance.direction,
+      'originationName': instance.originationName,
+      'destinationName': instance.destinationName,
+      'originator': instance.originator,
+      'destination': instance.destination,
+      'serviceType': instance.serviceType,
+      'validTo': instance.validTo?.toIso8601String(),
+      'validFrom': instance.validFrom?.toIso8601String()
+    };

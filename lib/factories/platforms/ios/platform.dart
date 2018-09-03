@@ -9,7 +9,7 @@ class IosPlatformFactory implements PlatformFactory {
   final AppPlatform _platform;
 
   IosPlatformFactory(this._platform) {
-    _platformService = new IosPlatformService(_platform);
+    _platformService = IosPlatformService(_platform);
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:transport_for_london/models/interval.dart';
 part 'station_interval.g.dart';
 
 @JsonSerializable()
-class StationInterval extends Object with _$StationIntervalSerializerMixin {
+class StationInterval {
   StationInterval({
     this.id,
     this.intervals,
@@ -15,5 +15,9 @@ class StationInterval extends Object with _$StationIntervalSerializerMixin {
 
   factory StationInterval.fromJson(Map<String, dynamic> json) {
     return _$StationIntervalFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$StationIntervalToJson(this);
   }
 }

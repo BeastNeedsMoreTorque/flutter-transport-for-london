@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'additional_property.g.dart';
 
 @JsonSerializable()
-class AdditionalProperty extends Object with _$AdditionalPropertySerializerMixin {
+class AdditionalProperty {
   AdditionalProperty({
     this.category,
     this.key,
@@ -18,5 +18,9 @@ class AdditionalProperty extends Object with _$AdditionalPropertySerializerMixin
 
   factory AdditionalProperty.fromJson(Map<String, dynamic> json) {
     return _$AdditionalPropertyFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$AdditionalPropertyToJson(this);
   }
 }

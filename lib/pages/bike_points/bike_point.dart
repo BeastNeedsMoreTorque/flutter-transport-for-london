@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/place.dart';
 import 'package:transport_for_london/services/bike_point.dart';
 import 'package:transport_for_london/services/platforms/platform.dart';
@@ -16,13 +16,13 @@ class BikePointPage extends StatefulWidget {
   final String bikePointId;
 
   @override
-  State<StatefulWidget> createState() => new _BikePointPageState();
+  State<StatefulWidget> createState() => _BikePointPageState();
 }
 
 class _BikePointPageState extends State<BikePointPage> {
   _BikePointPageState() {
-    _bikePointService = new DependencyInjector().bikePointService;
-    _platformService = new DependencyInjector().platformService;
+    _bikePointService = ServiceLocator().bikePointService;
+    _platformService = ServiceLocator().platformService;
   }
 
   Place _bikePoint;
@@ -30,26 +30,26 @@ class _BikePointPageState extends State<BikePointPage> {
   PlatformService _platformService;
 
   Widget _buildBikePoint() {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(_bikePoint.commonName),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_bikePoint.commonName),
       ),
-      body: new ListView(
+      body: ListView(
         children: <Widget>[
           _buildBikePointListTile(
             'Information',
-            new Icon(Icons.info),
+            Icon(Icons.info),
             '/bike_points/${widget.bikePointId}/additional_properties',
           ),
-          new ListTile(
-            leading: new Icon(Icons.map),
+          ListTile(
+            leading: Icon(Icons.map),
             onTap: () async {
               await _platformService.openMap(
                 _bikePoint.lat,
                 _bikePoint.lon,
               );
             },
-            title: new Text('Map'),
+            title: Text('Map'),
           ),
         ],
       ),
@@ -57,10 +57,10 @@ class _BikePointPageState extends State<BikePointPage> {
   }
 
   Widget _buildBikePointListTile(String title, Icon icon, String path) {
-    return new ListTile(
+    return ListTile(
       leading: icon,
       onTap: () => App.router.navigateTo(context, path),
-      title: new Text(title),
+      title: Text(title),
     );
   }
 
@@ -69,15 +69,15 @@ class _BikePointPageState extends State<BikePointPage> {
     if (_bikePoint != null) {
       return _buildBikePoint();
     } else {
-      return new ScaffoldFutureBuilder<Place>(
+      return ScaffoldFutureBuilder<Place>(
         _bikePointService.getBikePointByBikePointId(widget.bikePointId),
         (bikePoint) {
           _bikePoint = bikePoint;
 
           return _buildBikePoint();
         },
-        new LoadingSpinnerScaffold(
-          appBar: new AppBar(),
+        LoadingSpinnerScaffold(
+          appBar: AppBar(),
         ),
       );
     }

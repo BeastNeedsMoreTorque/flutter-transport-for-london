@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/mode.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/widgets/drawer.dart';
@@ -8,12 +8,12 @@ import 'package:transport_for_london/widgets/loading_spinner_future_builder.dart
 
 class ModesPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new _ModesPageState();
+  State<StatefulWidget> createState() => _ModesPageState();
 }
 
 class _ModesPageState extends State<ModesPage> {
   _ModesPageState() {
-    _lineService = new DependencyInjector().lineService;
+    _lineService = ServiceLocator().lineService;
   }
 
   LineService _lineService;
@@ -23,7 +23,7 @@ class _ModesPageState extends State<ModesPage> {
     if (_modes != null) {
       return _buildModesListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<List<Mode>>(
+      return LoadingSpinnerFutureBuilder<List<Mode>>(
         _lineService.getLineModes(),
         (modes) {
           _modes = modes;
@@ -35,16 +35,16 @@ class _ModesPageState extends State<ModesPage> {
   }
 
   Widget _buildModesListView() {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new ListTile(
+        return ListTile(
           onTap: () {
             App.router.navigateTo(
               context,
               '/modes/${_modes[index].modeName}',
             );
           },
-          title: new Text(_modes[index].modeName),
+          title: Text(_modes[index].modeName),
         );
       },
       itemCount: _modes.length,
@@ -53,12 +53,12 @@ class _ModesPageState extends State<ModesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Modes'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Modes'),
       ),
       body: _buildModes(),
-      drawer: new AppDrawer(),
+      drawer: AppDrawer(),
     );
   }
 }

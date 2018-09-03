@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/matched_route.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/widgets/loading_spinner_future_builder.dart';
@@ -16,12 +16,12 @@ class ModeLineRoutesPage extends StatefulWidget {
   final String modeName;
 
   @override
-  State<StatefulWidget> createState() => new _ModeLineRoutesPageState();
+  State<StatefulWidget> createState() => _ModeLineRoutesPageState();
 }
 
 class _ModeLineRoutesPageState extends State<ModeLineRoutesPage> {
   _ModeLineRoutesPageState() {
-    _lineService = new DependencyInjector().lineService;
+    _lineService = ServiceLocator().lineService;
   }
 
   LineService _lineService;
@@ -31,7 +31,7 @@ class _ModeLineRoutesPageState extends State<ModeLineRoutesPage> {
     if (_routes != null) {
       return _buildRoutesListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<List<MatchedRoute>>(
+      return LoadingSpinnerFutureBuilder<List<MatchedRoute>>(
         _lineService.getRoutesByLineId(widget.lineId),
         (routes) {
           _routes = routes;
@@ -43,9 +43,9 @@ class _ModeLineRoutesPageState extends State<ModeLineRoutesPage> {
   }
 
   Widget _buildRoutesListView() {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new RouteListTile(_routes[index]);
+        return RouteListTile(_routes[index]);
       },
       itemCount: _routes.length,
     );
@@ -53,9 +53,9 @@ class _ModeLineRoutesPageState extends State<ModeLineRoutesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Routes'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Routes'),
       ),
       body: _buildRoutes(),
     );

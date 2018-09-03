@@ -5,7 +5,7 @@ import 'package:transport_for_london/models/station_interval.dart';
 part 'timetable_route.g.dart';
 
 @JsonSerializable()
-class TimetableRoute extends Object with _$TimetableRouteSerializerMixin {
+class TimetableRoute {
   TimetableRoute({
     this.stationIntervals,
     this.schedules,
@@ -16,5 +16,9 @@ class TimetableRoute extends Object with _$TimetableRouteSerializerMixin {
 
   factory TimetableRoute.fromJson(Map<String, dynamic> json) {
     return _$TimetableRouteFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$TimetableRouteToJson(this);
   }
 }

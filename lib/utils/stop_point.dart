@@ -2,7 +2,7 @@ import 'package:transport_for_london/models/prediction.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 
 bool doesStopPointCommonNameContainQuery(StopPoint stopPoint, String query) {
-  return stopPoint.commonName.contains(new RegExp(query, caseSensitive: false));
+  return stopPoint.commonName.contains(RegExp(query, caseSensitive: false));
 }
 
 int sortPredictions(Prediction a, Prediction b) {

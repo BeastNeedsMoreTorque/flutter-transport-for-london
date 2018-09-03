@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/additional_property.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/stop_point.dart';
@@ -19,7 +19,7 @@ class ModeStopPointAdditionalPropertiesPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() =>
-      new _ModeStopPointAdditionalPropertiesPageState();
+      _ModeStopPointAdditionalPropertiesPageState();
 }
 
 class _ModeStopPointAdditionalPropertiesPageState
@@ -30,7 +30,7 @@ class _ModeStopPointAdditionalPropertiesPageState
         return true;
       } else {
         return additionalProperty.key.contains(
-          new RegExp(
+          RegExp(
             _searchQuery.text,
             caseSensitive: false,
           ),
@@ -38,7 +38,7 @@ class _ModeStopPointAdditionalPropertiesPageState
       }
     };
 
-    _stopPointService = new DependencyInjector().stopPointService;
+    _stopPointService = ServiceLocator().stopPointService;
   }
 
   Predicate<AdditionalProperty> _additionalPropertyKeyPredicate;
@@ -46,13 +46,13 @@ class _ModeStopPointAdditionalPropertiesPageState
   StopPoint _stopPoint;
   StopPointService _stopPointService;
 
-  final TextEditingController _searchQuery = new TextEditingController();
+  final TextEditingController _searchQuery = TextEditingController();
 
   Widget _buildAdditionalProperties() {
     if (_stopPoint != null) {
       return _buildAdditionalPropertiesListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<StopPoint>(
+      return LoadingSpinnerFutureBuilder<StopPoint>(
         _stopPointService.getStopPointByStopPointId(widget.stopPointId),
         (stopPoint) {
           _stopPoint = stopPoint;
@@ -69,33 +69,33 @@ class _ModeStopPointAdditionalPropertiesPageState
         .where(_additionalPropertyKeyPredicate)
         .toList();
 
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new AdditionalPropertyListTile(additionalProperties[index]);
+        return AdditionalPropertyListTile(additionalProperties[index]);
       },
       itemCount: additionalProperties.length,
     );
   }
 
   AppBar _buildAppBar() {
-    return new AppBar(
+    return AppBar(
       actions: <Widget>[
-        new IconButton(
-          icon: new Icon(Icons.search),
+        IconButton(
+          icon: Icon(Icons.search),
           onPressed: _handleSearchBegin,
           tooltip: 'Search',
         ),
       ],
-      title: new Text('Information'),
+      title: Text('Information'),
     );
   }
 
   AppBar _buildSearchBar() {
-    return new AppBar(
-      title: new TextField(
+    return AppBar(
+      title: TextField(
         autofocus: true,
         controller: _searchQuery,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           hintText: 'Search by additional property key',
         ),
       ),
@@ -103,7 +103,7 @@ class _ModeStopPointAdditionalPropertiesPageState
   }
 
   void _handleSearchBegin() {
-    ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
+    ModalRoute.of(context).addLocalHistoryEntry(LocalHistoryEntry(
       onRemove: () {
         _searchQuery.clear();
 
@@ -116,7 +116,7 @@ class _ModeStopPointAdditionalPropertiesPageState
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
       body: _buildAdditionalProperties(),
     );

@@ -3,16 +3,16 @@
 part of 'interval.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Interval _$IntervalFromJson(Map<String, dynamic> json) => new Interval(
-    stopId: json['stopId'] as String,
-    timeToArrival: json['timeToArrival'] as int);
-
-abstract class _$IntervalSerializerMixin {
-  String get stopId;
-  int get timeToArrival;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'stopId': stopId, 'timeToArrival': timeToArrival};
+Interval _$IntervalFromJson(Map<String, dynamic> json) {
+  return Interval(
+      stopId: json['stopId'] as String,
+      timeToArrival: json['timeToArrival'] as int);
 }
+
+Map<String, dynamic> _$IntervalToJson(Interval instance) => <String, dynamic>{
+      'stopId': instance.stopId,
+      'timeToArrival': instance.timeToArrival
+    };

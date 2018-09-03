@@ -4,7 +4,7 @@ import 'package:transport_for_london/models/prediction_timing.dart';
 part 'prediction.g.dart';
 
 @JsonSerializable()
-class Prediction extends Object with _$PredictionSerializerMixin {
+class Prediction {
   Prediction({
     this.id,
     this.operationType,
@@ -51,5 +51,9 @@ class Prediction extends Object with _$PredictionSerializerMixin {
 
   factory Prediction.fromJson(Map<String, dynamic> json) {
     return _$PredictionFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$PredictionToJson(this);
   }
 }

@@ -5,7 +5,7 @@ import 'package:transport_for_london/models/twenty_four_hour_clock_time.dart';
 part 'period.g.dart';
 
 @JsonSerializable()
-class Period extends Object with _$PeriodSerializerMixin {
+class Period {
   Period({
     this.type,
     this.fromTime,
@@ -20,5 +20,9 @@ class Period extends Object with _$PeriodSerializerMixin {
 
   factory Period.fromJson(Map<String, dynamic> json) {
     return _$PeriodFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$PeriodToJson(this);
   }
 }

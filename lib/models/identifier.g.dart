@@ -3,27 +3,23 @@
 part of 'identifier.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Identifier _$IdentifierFromJson(Map<String, dynamic> json) => new Identifier(
-    id: json['id'] as String,
-    name: json['name'] as String,
-    uri: json['uri'] as String,
-    type: json['type'] as String,
-    crowding: json['crowding']);
-
-abstract class _$IdentifierSerializerMixin {
-  String get id;
-  String get name;
-  String get uri;
-  String get type;
-  Object get crowding;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'name': name,
-        'uri': uri,
-        'type': type,
-        'crowding': crowding
-      };
+Identifier _$IdentifierFromJson(Map<String, dynamic> json) {
+  return Identifier(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      uri: json['uri'] as String,
+      type: json['type'] as String,
+      crowding: json['crowding']);
 }
+
+Map<String, dynamic> _$IdentifierToJson(Identifier instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'uri': instance.uri,
+      'type': instance.type,
+      'crowding': instance.crowding
+    };

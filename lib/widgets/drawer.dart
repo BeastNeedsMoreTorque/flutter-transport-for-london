@@ -5,9 +5,9 @@ import 'package:transport_for_london/models/page.dart';
 class AppDrawer extends Drawer {
   AppDrawer({Key key})
       : super(
-          child: new ListView.builder(
+          child: ListView.builder(
             itemBuilder: (BuildContext context, int index) {
-              return new ListTile(
+              return ListTile(
                 leading: _pages[index].icon,
                 onTap: () {
                   App.router.navigateTo(
@@ -15,7 +15,7 @@ class AppDrawer extends Drawer {
                     _pages[index].route,
                   );
                 },
-                title: new Text(_pages[index].title),
+                title: Text(_pages[index].title),
               );
             },
             itemCount: _pages.length,
@@ -24,23 +24,23 @@ class AppDrawer extends Drawer {
         );
 
   static final List<Page> _pages = [
-    new Page(
-      icon: new Icon(Icons.home),
+    Page(
+      icon: Icon(Icons.home),
       route: '/',
       title: 'Home',
     ),
-    new Page(
-      icon: new Icon(Icons.transfer_within_a_station),
+    Page(
+      icon: Icon(Icons.transfer_within_a_station),
       route: '/modes',
       title: 'Modes',
     ),
-    new Page(
-      icon: new Icon(Icons.directions_bike),
+    Page(
+      icon: Icon(Icons.directions_bike),
       route: '/bike_points',
       title: 'Bike Points',
     ),
-    new Page(
-      icon: new Icon(Icons.settings),
+    Page(
+      icon: Icon(Icons.settings),
       route: '/settings',
       title: 'Settings',
     ),

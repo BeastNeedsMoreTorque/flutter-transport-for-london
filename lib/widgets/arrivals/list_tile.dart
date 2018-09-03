@@ -11,15 +11,15 @@ class ArrivalListTile extends ListTile {
           isThreeLine: true,
           key: key,
           onTap: onTap,
-          subtitle: new Column(
+          subtitle: Column(
             children: <Widget>[
-              new SingleLineText(arrival.destinationName ?? 'Unknown'),
-              new SingleLineText(arrival.currentLocation ?? 'Unknown'),
+              SingleLineText(arrival.destinationName ?? 'Unknown'),
+              SingleLineText(arrival.currentLocation ?? 'Unknown'),
             ],
             crossAxisAlignment: CrossAxisAlignment.start,
           ),
-          title: new SingleLineText(arrival.towards ?? 'Unknown'),
-          trailing: new Text(
+          title: SingleLineText(arrival.towards ?? 'Unknown'),
+          trailing: Text(
             arrival.expectedArrival != null
                 ? arrival.expectedArrival
                     .toLocal()

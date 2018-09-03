@@ -3,17 +3,14 @@
 part of 'disambiguation_option.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-DisambiguationOption _$DisambiguationOptionFromJson(
-        Map<String, dynamic> json) =>
-    new DisambiguationOption(
-        description: json['description'] as String, url: json['url'] as String);
-
-abstract class _$DisambiguationOptionSerializerMixin {
-  String get description;
-  String get url;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'description': description, 'url': url};
+DisambiguationOption _$DisambiguationOptionFromJson(Map<String, dynamic> json) {
+  return DisambiguationOption(
+      description: json['description'] as String, url: json['url'] as String);
 }
+
+Map<String, dynamic> _$DisambiguationOptionToJson(
+        DisambiguationOption instance) =>
+    <String, dynamic>{'description': instance.description, 'url': instance.url};

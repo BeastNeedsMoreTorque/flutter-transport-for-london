@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/prediction.dart';
 import 'package:transport_for_london/services/stop_point.dart';
 import 'package:transport_for_london/widgets/arrivals/list_tile.dart';
@@ -20,32 +20,29 @@ class ModeStopPointArrivalsPage extends StatefulWidget {
   final String stopPointId;
 
   @override
-  State<StatefulWidget> createState() => new _ModeStopPointArrivalsPageState();
+  State<StatefulWidget> createState() => _ModeStopPointArrivalsPageState();
 }
 
 class _ModeStopPointArrivalsPageState extends State<ModeStopPointArrivalsPage> {
   _ModeStopPointArrivalsPageState() {
-    _stopPointService = new DependencyInjector().stopPointService;
+    _stopPointService = ServiceLocator().stopPointService;
   }
 
   Map<String, List<Prediction>> _arrivals;
   StopPointService _stopPointService;
 
   Widget _buildArrivals() {
-    return new DefaultTabController(
+    return DefaultTabController(
       length: _arrivals.length,
-      child: new Scaffold(
-        appBar: new AppBar(
-          bottom: new TabBar(
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
             isScrollable: true,
-            tabs: _arrivals.keys
-                .toList()
-                .map((key) => new Tab(text: key))
-                .toList(),
+            tabs: _arrivals.keys.toList().map((key) => Tab(text: key)).toList(),
           ),
-          title: new Text('Arrivals'),
+          title: Text('Arrivals'),
         ),
-        body: new TabBarView(
+        body: TabBarView(
           children: _arrivals.values.map((values) {
             List<Widget> slivers = [];
 
@@ -54,16 +51,16 @@ class _ModeStopPointArrivalsPageState extends State<ModeStopPointArrivalsPage> {
               (value) => value.platformName,
             ).entries.toList().forEach((entry) {
               slivers.add(
-                new SliverToBoxAdapter(
-                  child: new TextDivider(entry.key),
+                SliverToBoxAdapter(
+                  child: TextDivider(entry.key),
                 ),
               );
 
               slivers.add(
-                new SliverList(
-                  delegate: new SliverChildBuilderDelegate(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                      return new ArrivalListTile(
+                      return ArrivalListTile(
                         entry.value[index],
                         onTap: () {
                           App.router.navigateTo(
@@ -79,7 +76,7 @@ class _ModeStopPointArrivalsPageState extends State<ModeStopPointArrivalsPage> {
               );
             });
 
-            return new CustomScrollView(slivers: slivers);
+            return CustomScrollView(slivers: slivers);
           }).toList(),
         ),
       ),
@@ -91,16 +88,16 @@ class _ModeStopPointArrivalsPageState extends State<ModeStopPointArrivalsPage> {
     if (_arrivals != null) {
       return _buildArrivals();
     } else {
-      return new ScaffoldFutureBuilder<List<Prediction>>(
+      return ScaffoldFutureBuilder<List<Prediction>>(
         _stopPointService.getArrivalsByStopPointId(widget.stopPointId),
         (arrivals) {
           _arrivals = groupBy(arrivals, (arrival) => arrival.lineName);
 
           return _buildArrivals();
         },
-        new LoadingSpinnerScaffold(
-          appBar: new AppBar(
-            title: new Text('Arrivals'),
+        LoadingSpinnerScaffold(
+          appBar: AppBar(
+            title: Text('Arrivals'),
           ),
         ),
       );

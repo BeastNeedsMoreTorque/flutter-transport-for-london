@@ -13,6 +13,6 @@ class LineStore extends Store {
   Line get line => _line;
 }
 
-final StoreToken lineStoreToken = new StoreToken(new LineStore());
+final StoreToken lineStoreToken = StoreToken(LineStore());
 
-final Action<Line> selectLine = new Action<Line>();
+final Action<Line> selectLine = Action<Line>();

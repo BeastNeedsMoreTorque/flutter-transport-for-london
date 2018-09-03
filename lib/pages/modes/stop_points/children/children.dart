@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/stop_point.dart';
 import 'package:transport_for_london/widgets/loading_spinner_future_builder.dart';
@@ -16,12 +16,12 @@ class ModeStopPointChildrenPage extends StatefulWidget {
   final String stopPointId;
 
   @override
-  State<StatefulWidget> createState() => new _ModeStopPointChildrenPageState();
+  State<StatefulWidget> createState() => _ModeStopPointChildrenPageState();
 }
 
 class _ModeStopPointChildrenPageState extends State<ModeStopPointChildrenPage> {
   _ModeStopPointChildrenPageState() {
-    _stopPointService = new DependencyInjector().stopPointService;
+    _stopPointService = ServiceLocator().stopPointService;
   }
 
   List<StopPoint> _children;
@@ -34,17 +34,17 @@ class _ModeStopPointChildrenPageState extends State<ModeStopPointChildrenPage> {
   }
 
   Widget _buildChildExpansionTile(StopPoint child) {
-    return new ExpansionTile(
-      key: new PageStorageKey<StopPoint>(child),
-      title: new SingleLineText(child.commonName),
+    return ExpansionTile(
+      key: PageStorageKey<StopPoint>(child),
+      title: SingleLineText(child.commonName),
       children: child.children.map(_buildChild).toList(),
     );
   }
 
   Widget _buildChildListTile(StopPoint child) {
-    return new ListTile(
-      subtitle: new SingleLineText('${child.stopType} - ${child.id}'),
-      title: new SingleLineText(child.commonName),
+    return ListTile(
+      subtitle: SingleLineText('${child.stopType} - ${child.id}'),
+      title: SingleLineText(child.commonName),
     );
   }
 
@@ -52,7 +52,7 @@ class _ModeStopPointChildrenPageState extends State<ModeStopPointChildrenPage> {
     if (_children != null) {
       return _buildChildrenListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<StopPoint>(
+      return LoadingSpinnerFutureBuilder<StopPoint>(
         _stopPointService.getStopPointByStopPointId(widget.stopPointId),
         (stopPoint) {
           _children = stopPoint.children;
@@ -64,7 +64,7 @@ class _ModeStopPointChildrenPageState extends State<ModeStopPointChildrenPage> {
   }
 
   Widget _buildChildrenListView() {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
         return _buildChild(_children[index]);
       },
@@ -74,9 +74,9 @@ class _ModeStopPointChildrenPageState extends State<ModeStopPointChildrenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Children'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Children'),
       ),
       body: _buildChildren(),
     );

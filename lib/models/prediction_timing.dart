@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'prediction_timing.g.dart';
 
 @JsonSerializable()
-class PredictionTiming extends Object with _$PredictionTimingSerializerMixin {
+class PredictionTiming {
   PredictionTiming({
     this.countdownServerAdjustment,
     this.source,
@@ -22,5 +22,9 @@ class PredictionTiming extends Object with _$PredictionTimingSerializerMixin {
 
   factory PredictionTiming.fromJson(Map<String, dynamic> json) {
     return _$PredictionTimingFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$PredictionTimingToJson(this);
   }
 }

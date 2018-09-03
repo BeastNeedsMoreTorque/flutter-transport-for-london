@@ -4,7 +4,7 @@ import 'package:transport_for_london/models/additional_property.dart';
 part 'place.g.dart';
 
 @JsonSerializable()
-class Place extends Object with _$PlaceSerializerMixin {
+class Place {
   Place({
     this.id,
     this.url,
@@ -29,5 +29,9 @@ class Place extends Object with _$PlaceSerializerMixin {
 
   factory Place.fromJson(Map<String, dynamic> json) {
     return _$PlaceFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$PlaceToJson(this);
   }
 }

@@ -12,6 +12,6 @@ class ModeStopPointListTile extends StopPointListTile {
           stopPoint,
           key: key,
           onTap: onTap,
-          subtitle: new SingleLineText(stopPoint.stopType),
+          subtitle: SingleLineText(stopPoint.stopType),
         );
 }

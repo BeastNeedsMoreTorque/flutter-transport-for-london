@@ -3,19 +3,18 @@
 part of 'line_mode_group.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-LineModeGroup _$LineModeGroupFromJson(Map<String, dynamic> json) =>
-    new LineModeGroup(
-        modeName: json['modeName'] as String,
-        lineIdentifier: (json['lineIdentifier'] as List)
-            ?.map((e) => e as String)
-            ?.toList());
-
-abstract class _$LineModeGroupSerializerMixin {
-  String get modeName;
-  List<String> get lineIdentifier;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'modeName': modeName, 'lineIdentifier': lineIdentifier};
+LineModeGroup _$LineModeGroupFromJson(Map<String, dynamic> json) {
+  return LineModeGroup(
+      modeName: json['modeName'] as String,
+      lineIdentifier:
+          (json['lineIdentifier'] as List)?.map((e) => e as String)?.toList());
 }
+
+Map<String, dynamic> _$LineModeGroupToJson(LineModeGroup instance) =>
+    <String, dynamic>{
+      'modeName': instance.modeName,
+      'lineIdentifier': instance.lineIdentifier
+    };

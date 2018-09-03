@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'validity_period.g.dart';
 
 @JsonSerializable()
-class ValidityPeriod extends Object with _$ValidityPeriodSerializerMixin {
+class ValidityPeriod {
   ValidityPeriod({
     this.fromDate,
     this.toDate,
@@ -16,5 +16,9 @@ class ValidityPeriod extends Object with _$ValidityPeriodSerializerMixin {
 
   factory ValidityPeriod.fromJson(Map<String, dynamic> json) {
     return _$ValidityPeriodFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ValidityPeriodToJson(this);
   }
 }

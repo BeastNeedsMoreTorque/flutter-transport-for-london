@@ -3,17 +3,15 @@
 part of 'twenty_four_hour_clock_time.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
 TwentyFourHourClockTime _$TwentyFourHourClockTimeFromJson(
-        Map<String, dynamic> json) =>
-    new TwentyFourHourClockTime(
-        hour: json['hour'] as String, minute: json['minute'] as String);
-
-abstract class _$TwentyFourHourClockTimeSerializerMixin {
-  String get hour;
-  String get minute;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'hour': hour, 'minute': minute};
+    Map<String, dynamic> json) {
+  return TwentyFourHourClockTime(
+      hour: json['hour'] as String, minute: json['minute'] as String);
 }
+
+Map<String, dynamic> _$TwentyFourHourClockTimeToJson(
+        TwentyFourHourClockTime instance) =>
+    <String, dynamic>{'hour': instance.hour, 'minute': instance.minute};

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/additional_property.dart';
 import 'package:transport_for_london/models/place.dart';
 import 'package:transport_for_london/services/bike_point.dart';
@@ -17,7 +17,7 @@ class BikePointAdditionalPropertiesPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() =>
-      new _BikePointAdditionalPropertiesPageState();
+      _BikePointAdditionalPropertiesPageState();
 }
 
 class _BikePointAdditionalPropertiesPageState
@@ -28,7 +28,7 @@ class _BikePointAdditionalPropertiesPageState
         return true;
       } else {
         return additionalProperty.key.contains(
-          new RegExp(
+          RegExp(
             _searchQuery.text,
             caseSensitive: false,
           ),
@@ -36,7 +36,7 @@ class _BikePointAdditionalPropertiesPageState
       }
     };
 
-    _bikePointService = new DependencyInjector().bikePointService;
+    _bikePointService = ServiceLocator().bikePointService;
   }
 
   Predicate<AdditionalProperty> _additionalPropertyKeyPredicate;
@@ -44,13 +44,13 @@ class _BikePointAdditionalPropertiesPageState
   BikePointService _bikePointService;
   bool _isSearching = false;
 
-  final TextEditingController _searchQuery = new TextEditingController();
+  final TextEditingController _searchQuery = TextEditingController();
 
   Widget _buildAdditionalProperties() {
     if (_bikePoint != null) {
       return _buildAdditionalPropertiesListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<Place>(
+      return LoadingSpinnerFutureBuilder<Place>(
         _bikePointService.getBikePointByBikePointId(widget.bikePointId),
         (bikePoint) {
           _bikePoint = bikePoint;
@@ -67,33 +67,33 @@ class _BikePointAdditionalPropertiesPageState
         .where(_additionalPropertyKeyPredicate)
         .toList();
 
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new AdditionalPropertyListTile(additionalProperties[index]);
+        return AdditionalPropertyListTile(additionalProperties[index]);
       },
       itemCount: additionalProperties.length,
     );
   }
 
   AppBar _buildAppBar() {
-    return new AppBar(
+    return AppBar(
       actions: <Widget>[
-        new IconButton(
-          icon: new Icon(Icons.search),
+        IconButton(
+          icon: Icon(Icons.search),
           onPressed: _handleSearchBegin,
           tooltip: 'Search',
         ),
       ],
-      title: new Text('Information'),
+      title: Text('Information'),
     );
   }
 
   AppBar _buildSearchBar() {
-    return new AppBar(
-      title: new TextField(
+    return AppBar(
+      title: TextField(
         autofocus: true,
         controller: _searchQuery,
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           hintText: 'Search by additional property key',
         ),
       ),
@@ -101,7 +101,7 @@ class _BikePointAdditionalPropertiesPageState
   }
 
   void _handleSearchBegin() {
-    ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
+    ModalRoute.of(context).addLocalHistoryEntry(LocalHistoryEntry(
       onRemove: () {
         _searchQuery.clear();
 
@@ -114,7 +114,7 @@ class _BikePointAdditionalPropertiesPageState
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: _isSearching ? _buildSearchBar() : _buildAppBar(),
       body: _buildAdditionalProperties(),
     );

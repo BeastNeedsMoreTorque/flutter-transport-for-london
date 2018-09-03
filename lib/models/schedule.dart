@@ -5,7 +5,7 @@ import 'package:transport_for_london/models/period.dart';
 part 'schedule.g.dart';
 
 @JsonSerializable()
-class Schedule extends Object with _$ScheduleSerializerMixin {
+class Schedule {
   Schedule({
     this.name,
     this.knownJourneys,
@@ -22,5 +22,9 @@ class Schedule extends Object with _$ScheduleSerializerMixin {
 
   factory Schedule.fromJson(Map<String, dynamic> json) {
     return _$ScheduleFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ScheduleToJson(this);
   }
 }

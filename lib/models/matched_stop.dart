@@ -4,7 +4,7 @@ import 'package:transport_for_london/models/identifier.dart';
 part 'matched_stop.g.dart';
 
 @JsonSerializable()
-class MatchedStop extends Object with _$MatchedStopSerializerMixin {
+class MatchedStop {
   MatchedStop({
     this.routeId,
     this.parentId,
@@ -51,5 +51,9 @@ class MatchedStop extends Object with _$MatchedStopSerializerMixin {
 
   factory MatchedStop.fromJson(Map<String, dynamic> json) {
     return _$MatchedStopFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$MatchedStopToJson(this);
   }
 }

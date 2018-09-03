@@ -32,11 +32,11 @@ class PreferenceService {
   Future<Configuration> getConfiguration() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String string = preferences.getString(_configuration);
-    Configuration configuration = new Configuration();
+    Configuration configuration = Configuration();
 
     string == null
         ? await setConfiguration(configuration)
-        : configuration = new Configuration.fromJson(json.decode(string));
+        : configuration = Configuration.fromJson(json.decode(string));
 
     return configuration;
   }

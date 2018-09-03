@@ -3,21 +3,17 @@
 part of 'station_interval.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-StationInterval _$StationIntervalFromJson(Map<String, dynamic> json) =>
-    new StationInterval(
-        id: json['id'] as String,
-        intervals: (json['intervals'] as List)
-            ?.map((e) => e == null
-                ? null
-                : new Interval.fromJson(e as Map<String, dynamic>))
-            ?.toList());
-
-abstract class _$StationIntervalSerializerMixin {
-  String get id;
-  List<Interval> get intervals;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'id': id, 'intervals': intervals};
+StationInterval _$StationIntervalFromJson(Map<String, dynamic> json) {
+  return StationInterval(
+      id: json['id'] as String,
+      intervals: (json['intervals'] as List)
+          ?.map((e) =>
+              e == null ? null : Interval.fromJson(e as Map<String, dynamic>))
+          ?.toList());
 }
+
+Map<String, dynamic> _$StationIntervalToJson(StationInterval instance) =>
+    <String, dynamic>{'id': instance.id, 'intervals': instance.intervals};

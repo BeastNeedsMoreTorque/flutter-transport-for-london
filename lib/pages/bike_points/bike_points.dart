@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/place.dart';
 import 'package:transport_for_london/services/bike_point.dart';
 import 'package:transport_for_london/widgets/bike_points/list_tile.dart';
@@ -9,12 +9,12 @@ import 'package:transport_for_london/widgets/loading_spinner_future_builder.dart
 
 class BikePointsPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new _BikePointsPageState();
+  State<StatefulWidget> createState() => _BikePointsPageState();
 }
 
 class _BikePointsPageState extends State<BikePointsPage> {
   _BikePointsPageState() {
-    _bikePointService = new DependencyInjector().bikePointService;
+    _bikePointService = ServiceLocator().bikePointService;
   }
 
   BikePointService _bikePointService;
@@ -24,7 +24,7 @@ class _BikePointsPageState extends State<BikePointsPage> {
     if (_bikePoints != null) {
       return _buildBikePointsListView();
     } else {
-      return new LoadingSpinnerFutureBuilder(
+      return LoadingSpinnerFutureBuilder(
         _bikePointService.getBikePoints(),
         (bikePoints) {
           _bikePoints = bikePoints;
@@ -36,9 +36,9 @@ class _BikePointsPageState extends State<BikePointsPage> {
   }
 
   Widget _buildBikePointsListView() {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new BikePointListTile(
+        return BikePointListTile(
           _bikePoints[index],
           onTap: () {
             App.router.navigateTo(
@@ -54,12 +54,12 @@ class _BikePointsPageState extends State<BikePointsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Bike Points'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bike Points'),
       ),
       body: _buildBikePoints(),
-      drawer: new AppDrawer(),
+      drawer: AppDrawer(),
     );
   }
 }

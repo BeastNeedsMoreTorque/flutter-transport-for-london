@@ -6,7 +6,7 @@ import 'package:transport_for_london/models/timetable.dart';
 part 'timetable_response.g.dart';
 
 @JsonSerializable()
-class TimetableResponse extends Object with _$TimetableResponseSerializerMixin {
+class TimetableResponse {
   TimetableResponse({
     this.lineId,
     this.lineName,
@@ -29,5 +29,9 @@ class TimetableResponse extends Object with _$TimetableResponseSerializerMixin {
 
   factory TimetableResponse.fromJson(Map<String, dynamic> json) {
     return _$TimetableResponseFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$TimetableResponseToJson(this);
   }
 }

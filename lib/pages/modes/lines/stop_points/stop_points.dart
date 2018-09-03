@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/widgets/loading_spinner_future_builder.dart';
@@ -17,12 +17,12 @@ class ModeLineStopPointsPage extends StatefulWidget {
   final String modeName;
 
   @override
-  State<StatefulWidget> createState() => new _ModeLineStopPointsPageState();
+  State<StatefulWidget> createState() => _ModeLineStopPointsPageState();
 }
 
 class _ModeLineStopPointsPageState extends State<ModeLineStopPointsPage> {
   _ModeLineStopPointsPageState() {
-    _lineService = new DependencyInjector().lineService;
+    _lineService = ServiceLocator().lineService;
   }
 
   LineService _lineService;
@@ -32,7 +32,7 @@ class _ModeLineStopPointsPageState extends State<ModeLineStopPointsPage> {
     if (_stopPoints != null) {
       return _buildStopPointsListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<List<StopPoint>>(
+      return LoadingSpinnerFutureBuilder<List<StopPoint>>(
         _lineService.getStopPointsByLineId(widget.lineId),
         (stopPoints) {
           _stopPoints = stopPoints;
@@ -44,9 +44,9 @@ class _ModeLineStopPointsPageState extends State<ModeLineStopPointsPage> {
   }
 
   Widget _buildStopPointsListView() {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new ModeLineStopPointListTile(
+        return ModeLineStopPointListTile(
           _stopPoints[index],
           onTap: () {
             App.router.navigateTo(
@@ -62,9 +62,9 @@ class _ModeLineStopPointsPageState extends State<ModeLineStopPointsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Stop Points'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Stop Points'),
       ),
       body: _buildStopPoints(),
     );

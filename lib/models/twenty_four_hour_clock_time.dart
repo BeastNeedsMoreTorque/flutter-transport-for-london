@@ -3,8 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'twenty_four_hour_clock_time.g.dart';
 
 @JsonSerializable()
-class TwentyFourHourClockTime extends Object
-    with _$TwentyFourHourClockTimeSerializerMixin {
+class TwentyFourHourClockTime {
   TwentyFourHourClockTime({
     this.hour,
     this.minute,
@@ -15,5 +14,9 @@ class TwentyFourHourClockTime extends Object
 
   factory TwentyFourHourClockTime.fromJson(Map<String, dynamic> json) {
     return _$TwentyFourHourClockTimeFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$TwentyFourHourClockTimeToJson(this);
   }
 }

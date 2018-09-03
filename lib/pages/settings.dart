@@ -6,21 +6,21 @@ import 'package:transport_for_london/widgets/loading_spinner.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
-  _SettingsPageState createState() => new _SettingsPageState();
+  _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
   Configuration configuration;
-  PreferenceService preferencesService = new PreferenceService();
+  PreferenceService preferencesService = PreferenceService();
 
   AppBar _buildAppBar() {
-    return new AppBar(
-      title: new Text('Settings'),
+    return AppBar(
+      title: Text('Settings'),
     );
   }
 
   Widget _buildSettings() {
-    return new FutureBuilder<Configuration>(
+    return FutureBuilder<Configuration>(
       builder: (
         BuildContext context,
         AsyncSnapshot<Configuration> snapshot,
@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
           return _buildSettingsScrollView();
         } else {
-          return new LoadingSpinner();
+          return LoadingSpinner();
         }
       },
       future: preferencesService.getConfiguration(),
@@ -38,17 +38,17 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildSettingsScrollView() {
-    return new Center(
-      child: new Text('Coming Soon'),
+    return Center(
+      child: Text('Coming Soon'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: _buildAppBar(),
       body: _buildSettings(),
-      drawer: new AppDrawer(),
+      drawer: AppDrawer(),
     );
   }
 }

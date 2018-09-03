@@ -7,7 +7,7 @@ class LoadingSpinnerScaffold extends Scaffold {
     Key key,
   }) : super(
           appBar: appBar,
-          body: new LoadingSpinner(),
+          body: LoadingSpinner(),
           key: key,
         );
 }

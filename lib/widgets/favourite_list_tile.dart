@@ -11,6 +11,6 @@ class FavouriteListTile extends ListTile {
   }) : super(
           key: key,
           onTap: onTap,
-          title: new SingleLineText(favourite.name),
+          title: SingleLineText(favourite.name),
         );
 }

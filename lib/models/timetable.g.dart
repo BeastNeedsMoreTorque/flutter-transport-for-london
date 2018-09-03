@@ -3,20 +3,20 @@
 part of 'timetable.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Timetable _$TimetableFromJson(Map<String, dynamic> json) => new Timetable(
-    departureStopId: json['departureStopId'] as String,
-    routes: (json['routes'] as List)
-        ?.map((e) => e == null
-            ? null
-            : new TimetableRoute.fromJson(e as Map<String, dynamic>))
-        ?.toList());
-
-abstract class _$TimetableSerializerMixin {
-  String get departureStopId;
-  List<TimetableRoute> get routes;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'departureStopId': departureStopId, 'routes': routes};
+Timetable _$TimetableFromJson(Map<String, dynamic> json) {
+  return Timetable(
+      departureStopId: json['departureStopId'] as String,
+      routes: (json['routes'] as List)
+          ?.map((e) => e == null
+              ? null
+              : TimetableRoute.fromJson(e as Map<String, dynamic>))
+          ?.toList());
 }
+
+Map<String, dynamic> _$TimetableToJson(Timetable instance) => <String, dynamic>{
+      'departureStopId': instance.departureStopId,
+      'routes': instance.routes
+    };

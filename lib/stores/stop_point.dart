@@ -13,6 +13,6 @@ class StopPointStore extends Store {
   StopPoint get stopPoint => _stopPoint;
 }
 
-final StoreToken stopPointStoreToken = new StoreToken(new StopPointStore());
+final StoreToken stopPointStoreToken = StoreToken(StopPointStore());
 
-final Action<StopPoint> selectStopPoint = new Action<StopPoint>();
+final Action<StopPoint> selectStopPoint = Action<StopPoint>();

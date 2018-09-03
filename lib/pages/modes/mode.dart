@@ -10,21 +10,21 @@ class ModePage extends StatefulWidget {
   final String modeName;
 
   @override
-  State<StatefulWidget> createState() => new _ModePageState();
+  State<StatefulWidget> createState() => _ModePageState();
 }
 
 class _ModePageState extends State<ModePage> {
   Widget _buildMode() {
-    return new ListView(
+    return ListView(
       children: <Widget>[
         _buildModeListTile(
           'Lines',
-          new Icon(Icons.reorder),
+          Icon(Icons.reorder),
           '/modes/${widget.modeName}/lines',
         ),
         _buildModeListTile(
           'Stop Points',
-          new Icon(Icons.place),
+          Icon(Icons.place),
           '/modes/${widget.modeName}/stop_points',
         ),
       ],
@@ -32,18 +32,18 @@ class _ModePageState extends State<ModePage> {
   }
 
   Widget _buildModeListTile(String title, Icon icon, String path) {
-    return new ListTile(
+    return ListTile(
       leading: icon,
       onTap: () => App.router.navigateTo(context, path),
-      title: new Text(title),
+      title: Text(title),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.modeName),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.modeName),
       ),
       body: _buildMode(),
     );

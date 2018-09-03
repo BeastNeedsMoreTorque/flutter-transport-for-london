@@ -11,7 +11,7 @@ class PlaceListTile extends ListTile {
   }) : super(
           key: key,
           onTap: onTap,
-          title: new SingleLineText(place.commonName),
+          title: SingleLineText(place.commonName),
           trailing: trailing,
         );
 }

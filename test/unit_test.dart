@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/mappings/line.dart';
 import 'package:transport_for_london/mappings/stop_point.dart';
 import 'package:transport_for_london/models/disruption.dart';
@@ -14,10 +14,10 @@ import 'package:transport_for_london/utils/favourite.dart';
 import 'package:transport_for_london/utils/stop_point.dart';
 
 void main() {
-  group('injectors', () {
-    group('dependency', () {
+  group('locators', () {
+    group('service', () {
       test('singleton', () {
-        expect(new DependencyInjector(), new DependencyInjector());
+        expect(new ServiceLocator(), new ServiceLocator());
       });
     });
   });
@@ -28,7 +28,7 @@ void main() {
         Disruption actual = mapToDisruption(
           {'category': 'Information'},
         );
-        expect(actual, new isInstanceOf<Disruption>());
+        expect(actual, new TypeMatcher<Disruption>());
         expect(actual.category, 'Information');
       });
 
@@ -36,7 +36,7 @@ void main() {
         List<Disruption> actual = mapToDisruptions([
           {'category': 'RealTime'},
         ]);
-        expect(actual, new isInstanceOf<List<Disruption>>());
+        expect(actual, new TypeMatcher<List<Disruption>>());
         expect(actual.first.category, 'RealTime');
       });
 
@@ -44,7 +44,7 @@ void main() {
         Line actual = mapToLine(
           {'id': 'bakerloo'},
         );
-        expect(actual, new isInstanceOf<Line>());
+        expect(actual, new TypeMatcher<Line>());
         expect(actual.id, 'bakerloo');
       });
 
@@ -52,7 +52,7 @@ void main() {
         List<Line> actual = mapToLines([
           {'id': 'central'},
         ]);
-        expect(actual, new isInstanceOf<List<Line>>());
+        expect(actual, new TypeMatcher<List<Line>>());
         expect(actual.first.id, 'central');
       });
 
@@ -60,7 +60,7 @@ void main() {
         Mode actual = mapToMode(
           {'modeName': 'tube'},
         );
-        expect(actual, new isInstanceOf<Mode>());
+        expect(actual, new TypeMatcher<Mode>());
         expect(actual.modeName, 'tube');
       });
 
@@ -68,7 +68,7 @@ void main() {
         List<Mode> actual = mapToModes([
           {'modeName': 'bus'},
         ]);
-        expect(actual, new isInstanceOf<List<Mode>>());
+        expect(actual, new TypeMatcher<List<Mode>>());
         expect(actual.first.modeName, 'bus');
       });
 
@@ -76,7 +76,7 @@ void main() {
         MatchedRoute actual = mapToRoute(
           {'direction': 'inbound'},
         );
-        expect(actual, new isInstanceOf<MatchedRoute>());
+        expect(actual, new TypeMatcher<MatchedRoute>());
         expect(actual.direction, 'inbound');
       });
 
@@ -84,7 +84,7 @@ void main() {
         List<MatchedRoute> actual = mapToRoutes([
           {'direction': 'outbound'},
         ]);
-        expect(actual, new isInstanceOf<List<MatchedRoute>>());
+        expect(actual, new TypeMatcher<List<MatchedRoute>>());
         expect(actual.first.direction, 'outbound');
       });
 
@@ -92,7 +92,7 @@ void main() {
         List<LineStatus> actual = mapToStatuses(
           {'lineStatuses': []},
         );
-        expect(actual, new isInstanceOf<List<LineStatus>>());
+        expect(actual, new TypeMatcher<List<LineStatus>>());
         expect(actual, isEmpty);
       });
     });
@@ -102,7 +102,7 @@ void main() {
         Prediction actual = mapToPrediction(
           {'lineId': 'bakerloo'},
         );
-        expect(actual, new isInstanceOf<Prediction>());
+        expect(actual, new TypeMatcher<Prediction>());
         expect(actual.lineId, 'bakerloo');
       });
 
@@ -110,7 +110,7 @@ void main() {
         List<Prediction> actual = mapToPredictions([
           {'lineId': 'central'},
         ]);
-        expect(actual, new isInstanceOf<List<Prediction>>());
+        expect(actual, new TypeMatcher<List<Prediction>>());
         expect(actual.first.lineId, 'central');
       });
 
@@ -118,7 +118,7 @@ void main() {
         StopPoint actual = mapToStopPoint(
           {'id': '940GZZLUACT'},
         );
-        expect(actual, new isInstanceOf<StopPoint>());
+        expect(actual, new TypeMatcher<StopPoint>());
         expect(actual.id, '940GZZLUACT');
       });
 
@@ -126,7 +126,7 @@ void main() {
         List<StopPoint> actual = mapToStopPoints([
           {'id': '940GZZLUNAN'},
         ]);
-        expect(actual, new isInstanceOf<List<StopPoint>>());
+        expect(actual, new TypeMatcher<List<StopPoint>>());
         expect(actual.first.id, '940GZZLUNAN');
       });
     });

@@ -8,7 +8,7 @@ class AdditionalPropertyListTile extends ListTile {
     Key key,
   }) : super(
           key: key,
-          subtitle: new SingleLineText(additionalProperty.value),
-          title: new SingleLineText(additionalProperty.key),
+          subtitle: SingleLineText(additionalProperty.value),
+          title: SingleLineText(additionalProperty.key),
         );
 }

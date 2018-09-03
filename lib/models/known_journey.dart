@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'known_journey.g.dart';
 
 @JsonSerializable()
-class KnownJourney extends Object with _$KnownJourneySerializerMixin {
+class KnownJourney {
   KnownJourney({
     this.hour,
     this.minute,
@@ -16,5 +16,9 @@ class KnownJourney extends Object with _$KnownJourneySerializerMixin {
 
   factory KnownJourney.fromJson(Map<String, dynamic> json) {
     return _$KnownJourneyFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$KnownJourneyToJson(this);
   }
 }

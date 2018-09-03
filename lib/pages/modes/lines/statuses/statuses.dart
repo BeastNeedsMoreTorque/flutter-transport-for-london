@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/line_status.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/widgets/loading_spinner.dart';
@@ -19,12 +19,12 @@ class ModeLineStatusesPage extends StatefulWidget {
   final String modeName;
 
   @override
-  State<StatefulWidget> createState() => new _ModeLineStatusesPageState();
+  State<StatefulWidget> createState() => _ModeLineStatusesPageState();
 }
 
 class _ModeLineStatusesPageState extends State<ModeLineStatusesPage> {
   _ModeLineStatusesPageState() {
-    _lineService = new DependencyInjector().lineService;
+    _lineService = ServiceLocator().lineService;
   }
 
   DateTime _fromDate;
@@ -35,17 +35,17 @@ class _ModeLineStatusesPageState extends State<ModeLineStatusesPage> {
 
   List<Widget> _buildAppBarActions() {
     return [
-      new IconButton(
-        icon: new Icon(Icons.date_range),
+      IconButton(
+        icon: Icon(Icons.date_range),
         onPressed: _handleFutureStatusesPressed,
       ),
     ];
   }
 
   ListView _buildStatusListView() {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new StatusListTile(_futureStatuses[index]);
+        return StatusListTile(_futureStatuses[index]);
       },
       itemCount: _futureStatuses.length,
     );
@@ -53,11 +53,11 @@ class _ModeLineStatusesPageState extends State<ModeLineStatusesPage> {
 
   Widget _buildStatuses() {
     if (_isLoading) {
-      return new LoadingSpinner();
+      return LoadingSpinner();
     } else if (_futureStatuses != null) {
       return _buildStatusListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<List<LineStatus>>(
+      return LoadingSpinnerFutureBuilder<List<LineStatus>>(
         _lineService.getStatusesByLineId(widget.lineId),
         (statuses) {
           _futureStatuses = statuses;
@@ -70,13 +70,13 @@ class _ModeLineStatusesPageState extends State<ModeLineStatusesPage> {
   }
 
   Future<void> _handleFutureStatusesPressed() async {
-    DateTime currentDate = new DateTime.now();
+    DateTime currentDate = DateTime.now();
 
     _fromDate = await showDatePicker(
       context: context,
       initialDate: _fromDate ?? currentDate,
-      firstDate: currentDate.subtract(new Duration(days: 1)),
-      lastDate: currentDate.add(new Duration(days: 61)),
+      firstDate: currentDate.subtract(Duration(days: 1)),
+      lastDate: currentDate.add(Duration(days: 61)),
     );
 
     if (_fromDate != null) {
@@ -85,7 +85,7 @@ class _ModeLineStatusesPageState extends State<ModeLineStatusesPage> {
       _futureStatuses = await _lineService.getStatusesByLineIdDate(
         widget.lineId,
         _fromDate,
-        _fromDate.add(new Duration(days: 1)),
+        _fromDate.add(Duration(days: 1)),
       );
 
       setState(() => _isLoading = false);
@@ -96,10 +96,10 @@ class _ModeLineStatusesPageState extends State<ModeLineStatusesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         actions: _buildAppBarActions(),
-        title: new Text('Statuses'),
+        title: Text('Statuses'),
       ),
       body: _buildStatuses(),
     );

@@ -5,7 +5,7 @@ import 'package:transport_for_london/models/validity_period.dart';
 part 'line_status.g.dart';
 
 @JsonSerializable()
-class LineStatus extends Object with _$LineStatusSerializerMixin {
+class LineStatus {
   LineStatus({
     this.id,
     this.lineId,
@@ -28,5 +28,9 @@ class LineStatus extends Object with _$LineStatusSerializerMixin {
 
   factory LineStatus.fromJson(Map<String, dynamic> json) {
     return _$LineStatusFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$LineStatusToJson(this);
   }
 }

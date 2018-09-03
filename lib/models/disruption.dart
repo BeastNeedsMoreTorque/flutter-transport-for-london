@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'disruption.g.dart';
 
 @JsonSerializable()
-class Disruption extends Object with _$DisruptionSerializerMixin {
+class Disruption {
   Disruption({
     this.category,
     this.type,
@@ -24,5 +24,9 @@ class Disruption extends Object with _$DisruptionSerializerMixin {
 
   factory Disruption.fromJson(Map<String, dynamic> json) {
     return _$DisruptionFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$DisruptionToJson(this);
   }
 }

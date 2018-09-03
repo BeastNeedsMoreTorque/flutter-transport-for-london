@@ -3,24 +3,20 @@
 part of 'mode.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Mode _$ModeFromJson(Map<String, dynamic> json) => new Mode(
-    isTflService: json['isTflService'] as bool,
-    isFarePaying: json['isFarePaying'] as bool,
-    isScheduledService: json['isScheduledService'] as bool,
-    modeName: json['modeName'] as String);
-
-abstract class _$ModeSerializerMixin {
-  bool get isTflService;
-  bool get isFarePaying;
-  bool get isScheduledService;
-  String get modeName;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'isTflService': isTflService,
-        'isFarePaying': isFarePaying,
-        'isScheduledService': isScheduledService,
-        'modeName': modeName
-      };
+Mode _$ModeFromJson(Map<String, dynamic> json) {
+  return Mode(
+      isTflService: json['isTflService'] as bool,
+      isFarePaying: json['isFarePaying'] as bool,
+      isScheduledService: json['isScheduledService'] as bool,
+      modeName: json['modeName'] as String);
 }
+
+Map<String, dynamic> _$ModeToJson(Mode instance) => <String, dynamic>{
+      'isTflService': instance.isTflService,
+      'isFarePaying': instance.isFarePaying,
+      'isScheduledService': instance.isScheduledService,
+      'modeName': instance.modeName
+    };

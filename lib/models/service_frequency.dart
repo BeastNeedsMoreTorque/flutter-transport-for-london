@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'service_frequency.g.dart';
 
 @JsonSerializable()
-class ServiceFrequency extends Object with _$ServiceFrequencySerializerMixin {
+class ServiceFrequency {
   ServiceFrequency({
     this.lowestFrequency,
     this.highestFrequency,
@@ -14,5 +14,9 @@ class ServiceFrequency extends Object with _$ServiceFrequencySerializerMixin {
 
   factory ServiceFrequency.fromJson(Map<String, dynamic> json) {
     return _$ServiceFrequencyFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ServiceFrequencyToJson(this);
   }
 }

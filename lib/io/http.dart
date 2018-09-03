@@ -13,21 +13,21 @@ class AppHttp {
 
   Future<dynamic> get(String path) async {
     http.Response response = await http.get(
-      new Uri.https(
+      Uri.https(
         _authority,
         path,
         _queryParameters,
       ),
     );
 
-    if (response.statusCode == HttpStatus.OK) {
+    if (response.statusCode == HttpStatus.ok) {
       try {
         return json.decode(response.body);
       } catch (exception) {
-        throw new Exception('000 - ${exception}');
+        throw Exception('000 - ${exception}');
       }
     } else {
-      throw new Exception('${response.statusCode} - ${response.reasonPhrase}');
+      throw Exception('${response.statusCode} - ${response.reasonPhrase}');
     }
   }
 }

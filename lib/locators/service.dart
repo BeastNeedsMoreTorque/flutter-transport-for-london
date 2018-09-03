@@ -7,7 +7,6 @@ import 'package:transport_for_london/factories/platforms/platform.dart';
 import 'package:transport_for_london/factories/repos/mocks/repo.dart';
 import 'package:transport_for_london/factories/repos/prods/repo.dart';
 import 'package:transport_for_london/factories/repos/repo.dart';
-import 'package:transport_for_london/factories/services/service.dart';
 import 'package:transport_for_london/io/http.dart';
 import 'package:transport_for_london/io/platform.dart';
 import 'package:transport_for_london/services/bike_point.dart';
@@ -16,7 +15,7 @@ import 'package:transport_for_london/services/platforms/platform.dart';
 import 'package:transport_for_london/services/preference.dart';
 import 'package:transport_for_london/services/stop_point.dart';
 
-class DependencyInjector implements ServiceFactory {
+class ServiceLocator {
   // Instances of application's services.
   BikePointService _bikePointService;
   LineService _lineService;
@@ -25,10 +24,10 @@ class DependencyInjector implements ServiceFactory {
   StopPointService _stopPointService;
 
   // Instances of application's IO classes.
-  final AppHttp _http = new AppHttp();
-  final AppPlatform _platform = new AppPlatform();
+  final AppHttp _http = AppHttp();
+  final AppPlatform _platform = AppPlatform();
 
-  // Instances of the factories used by the injector.
+  // Instances of the factories used by the locator.
   PlatformFactory _platformFactory;
   RepoFactory _repoFactory;
 
@@ -38,35 +37,32 @@ class DependencyInjector implements ServiceFactory {
   // Set the environment property.
   static set environment(Environment environment) => _environment = environment;
 
-  // Instance of the `DependencyInjector` singleton.
-  static final DependencyInjector _singleton = DependencyInjector._internal();
+  // Instance of the `ServiceLocator` singleton.
+  static final ServiceLocator _singleton = ServiceLocator._internal();
 
   // Factory constructor which provides the singleton instance.
-  factory DependencyInjector() => _singleton;
+  factory ServiceLocator() => _singleton;
 
-  // Private constructor called `internal` which creates the injector.
-  DependencyInjector._internal();
+  // Private constructor called `internal` which creates the locator.
+  ServiceLocator._internal();
 
   // Lazily instantiate and/or get the application's services.
-  @override
   BikePointService get bikePointService {
     if (_bikePointService == null) {
-      _bikePointService = new BikePointService(repoFactory.bikePointRepo);
+      _bikePointService = BikePointService(repoFactory.bikePointRepo);
     }
 
     return _bikePointService;
   }
 
-  @override
   LineService get lineService {
     if (_lineService == null) {
-      _lineService = new LineService(repoFactory.lineRepo);
+      _lineService = LineService(repoFactory.lineRepo);
     }
 
     return _lineService;
   }
 
-  @override
   PlatformService get platformService {
     if (_platformService == null) {
       _platformService = platformFactory.platformService;
@@ -75,19 +71,17 @@ class DependencyInjector implements ServiceFactory {
     return _platformService;
   }
 
-  @override
   PreferenceService get preferenceService {
     if (_preferenceService == null) {
-      _preferenceService = new PreferenceService();
+      _preferenceService = PreferenceService();
     }
 
     return _preferenceService;
   }
 
-  @override
   StopPointService get stopPointService {
     if (_stopPointService == null) {
-      _stopPointService = new StopPointService(repoFactory.stopPointRepo);
+      _stopPointService = StopPointService(repoFactory.stopPointRepo);
     }
 
     return _stopPointService;
@@ -97,13 +91,13 @@ class DependencyInjector implements ServiceFactory {
     if (_platformFactory == null) {
       switch (Platform.operatingSystem) {
         case 'android':
-          _platformFactory = new AndroidPlatformFactory(_platform);
+          _platformFactory = AndroidPlatformFactory(_platform);
           break;
         case 'ios':
-          _platformFactory = new IosPlatformFactory(_platform);
+          _platformFactory = IosPlatformFactory(_platform);
           break;
         default:
-          throw new Exception(
+          throw Exception(
             'Platform ${Platform.operatingSystem} not supported.',
           );
       }
@@ -116,13 +110,13 @@ class DependencyInjector implements ServiceFactory {
     if (_repoFactory == null) {
       switch (_environment) {
         case Environment.MOCK:
-          _repoFactory = new MockRepoFactory();
+          _repoFactory = MockRepoFactory();
           break;
         case Environment.PROD:
-          _repoFactory = new ProdRepoFactory(_http);
+          _repoFactory = ProdRepoFactory(_http);
           break;
         default:
-          throw new Exception(
+          throw Exception(
             'Environment $_environment not supported.',
           );
       }

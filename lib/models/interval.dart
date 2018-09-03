@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'interval.g.dart';
 
 @JsonSerializable()
-class Interval extends Object with _$IntervalSerializerMixin {
+class Interval {
   Interval({
     this.stopId,
     this.timeToArrival,
@@ -14,5 +14,9 @@ class Interval extends Object with _$IntervalSerializerMixin {
 
   factory Interval.fromJson(Map<String, dynamic> json) {
     return _$IntervalFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$IntervalToJson(this);
   }
 }

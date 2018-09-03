@@ -4,7 +4,7 @@ import 'package:transport_for_london/models/timetable_route.dart';
 part 'timetable.g.dart';
 
 @JsonSerializable()
-class Timetable extends Object with _$TimetableSerializerMixin {
+class Timetable {
   Timetable({
     this.departureStopId,
     this.routes,
@@ -15,5 +15,9 @@ class Timetable extends Object with _$TimetableSerializerMixin {
 
   factory Timetable.fromJson(Map<String, dynamic> json) {
     return _$TimetableFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$TimetableToJson(this);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/line_mode_group.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/stop_point.dart';
@@ -18,31 +18,31 @@ class ModeStopPointLinesPage extends StatefulWidget {
   final String stopPointId;
 
   @override
-  State<StatefulWidget> createState() => new _ModeStopPointLinesPageState();
+  State<StatefulWidget> createState() => _ModeStopPointLinesPageState();
 }
 
 class _ModeStopPointLinesPageState extends State<ModeStopPointLinesPage> {
   _ModeStopPointLinesPageState() {
-    _stopPointService = new DependencyInjector().stopPointService;
+    _stopPointService = ServiceLocator().stopPointService;
   }
 
   List<LineModeGroup> _lineModeGroups;
   StopPointService _stopPointService;
 
   Widget _buildLines() {
-    return new DefaultTabController(
+    return DefaultTabController(
       length: _lineModeGroups.length,
-      child: new Scaffold(
-        appBar: new AppBar(
-          bottom: new TabBar(
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
             isScrollable: true,
             tabs: _lineModeGroups.map((lineModeGroup) {
-              return new Tab(text: lineModeGroup.modeName);
+              return Tab(text: lineModeGroup.modeName);
             }).toList(),
           ),
-          title: new Text('Lines'),
+          title: Text('Lines'),
         ),
-        body: new TabBarView(
+        body: TabBarView(
           children: _lineModeGroups.map(_buildLinesListView).toList(),
         ),
       ),
@@ -50,16 +50,16 @@ class _ModeStopPointLinesPageState extends State<ModeStopPointLinesPage> {
   }
 
   Widget _buildLinesListView(LineModeGroup lineModeGroup) {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new ListTile(
+        return ListTile(
           onTap: () {
             App.router.navigateTo(
               context,
               '/modes/${lineModeGroup.modeName}/lines/${lineModeGroup.lineIdentifier[index]}',
             );
           },
-          title: new Text(lineModeGroup.lineIdentifier[index]),
+          title: Text(lineModeGroup.lineIdentifier[index]),
         );
       },
       itemCount: lineModeGroup.lineIdentifier.length,
@@ -71,16 +71,16 @@ class _ModeStopPointLinesPageState extends State<ModeStopPointLinesPage> {
     if (_lineModeGroups != null) {
       return _buildLines();
     } else {
-      return new ScaffoldFutureBuilder<StopPoint>(
+      return ScaffoldFutureBuilder<StopPoint>(
         _stopPointService.getStopPointByStopPointId(widget.stopPointId),
         (stopPoint) {
           _lineModeGroups = stopPoint.lineModeGroups;
 
           return _buildLines();
         },
-        new LoadingSpinnerScaffold(
-          appBar: new AppBar(
-            title: new Text('Lines'),
+        LoadingSpinnerScaffold(
+          appBar: AppBar(
+            title: Text('Lines'),
           ),
         ),
       );

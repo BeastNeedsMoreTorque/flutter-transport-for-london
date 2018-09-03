@@ -7,7 +7,7 @@ class AppPlatform {
     if (await launcher.canLaunch(url)) {
       await launcher.launch(url);
     } else {
-      throw new Exception('Could not launch $url.');
+      throw Exception('Could not launch $url.');
     }
   }
 }

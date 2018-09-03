@@ -3,15 +3,12 @@
 part of 'favourite.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Favourite _$FavouriteFromJson(Map<String, dynamic> json) =>
-    new Favourite(name: json['name'] as String, path: json['path'] as String);
-
-abstract class _$FavouriteSerializerMixin {
-  String get name;
-  String get path;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{'name': name, 'path': path};
+Favourite _$FavouriteFromJson(Map<String, dynamic> json) {
+  return Favourite(name: json['name'] as String, path: json['path'] as String);
 }
+
+Map<String, dynamic> _$FavouriteToJson(Favourite instance) =>
+    <String, dynamic>{'name': instance.name, 'path': instance.path};

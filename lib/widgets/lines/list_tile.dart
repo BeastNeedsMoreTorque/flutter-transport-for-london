@@ -9,6 +9,6 @@ class LineListTile extends ListTile {
   }) : super(
           key: key,
           onTap: onTap,
-          title: new Text(line.name),
+          title: Text(line.name),
         );
 }

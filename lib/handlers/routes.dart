@@ -20,137 +20,137 @@ import 'package:transport_for_london/pages/modes/stop_points/stop_point.dart';
 import 'package:transport_for_london/pages/modes/stop_points/stop_points.dart';
 import 'package:transport_for_london/pages/settings.dart';
 
-Handler bikePointHandler = new Handler(
+Handler bikePointHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new BikePointPage(
+    return BikePointPage(
       bikePointId: params['bikePointId'].first,
     );
   },
 );
 
-Handler bikePointAdditionalPropertiesHandler = new Handler(
+Handler bikePointAdditionalPropertiesHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new BikePointAdditionalPropertiesPage(
+    return BikePointAdditionalPropertiesPage(
       bikePointId: params['bikePointId'].first,
     );
   },
 );
 
-Handler bikePointsHandler = new Handler(
+Handler bikePointsHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new BikePointsPage();
+    return BikePointsPage();
   },
 );
 
-Handler modeHandler = new Handler(
+Handler modeHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModePage(
+    return ModePage(
       modeName: params['modeName'].first,
     );
   },
 );
 
-Handler modeLineHandler = new Handler(
+Handler modeLineHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeLinePage(
+    return ModeLinePage(
       lineId: params['lineId'].first,
       modeName: params['modeName'].first,
     );
   },
 );
 
-Handler modeLineRoutesHandler = new Handler(
+Handler modeLineRoutesHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeLineRoutesPage(
+    return ModeLineRoutesPage(
       lineId: params['lineId'].first,
       modeName: params['modeName'].first,
     );
   },
 );
 
-Handler modeLineStatusesHandler = new Handler(
+Handler modeLineStatusesHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeLineStatusesPage(
+    return ModeLineStatusesPage(
       lineId: params['lineId'].first,
       modeName: params['modeName'].first,
     );
   },
 );
 
-Handler modeLineStopPointsHandler = new Handler(
+Handler modeLineStopPointsHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeLineStopPointsPage(
+    return ModeLineStopPointsPage(
       lineId: params['lineId'].first,
       modeName: params['modeName'].first,
     );
   },
 );
 
-Handler modeLinesHandler = new Handler(
+Handler modeLinesHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeLinesPage(
+    return ModeLinesPage(
       modeName: params['modeName'].first,
     );
   },
 );
 
-Handler modeStopPointHandler = new Handler(
+Handler modeStopPointHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeStopPointPage(
+    return ModeStopPointPage(
       modeName: params['modeName'].first,
       stopPointId: params['stopPointId'].first,
     );
   },
 );
 
-Handler modeStopPointAdditionalPropertiesHandler = new Handler(
+Handler modeStopPointAdditionalPropertiesHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeStopPointAdditionalPropertiesPage(
+    return ModeStopPointAdditionalPropertiesPage(
       modeName: params['modeName'].first,
       stopPointId: params['stopPointId'].first,
     );
   },
 );
 
-Handler modeStopPointArrivalHandler = new Handler(
+Handler modeStopPointArrivalHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeStopPointArrivalPage(
+    return ModeStopPointArrivalPage(
       arrivalId: params['arrivalId'].first,
       modeName: params['modeName'].first,
       stopPointId: params['stopPointId'].first,
@@ -158,63 +158,63 @@ Handler modeStopPointArrivalHandler = new Handler(
   },
 );
 
-Handler modeStopPointArrivalsHandler = new Handler(
+Handler modeStopPointArrivalsHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeStopPointArrivalsPage(
+    return ModeStopPointArrivalsPage(
       modeName: params['modeName'].first,
       stopPointId: params['stopPointId'].first,
     );
   },
 );
 
-Handler modeStopPointChildrenHandler = new Handler(
+Handler modeStopPointChildrenHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeStopPointChildrenPage(
+    return ModeStopPointChildrenPage(
       modeName: params['modeName'].first,
       stopPointId: params['stopPointId'].first,
     );
   },
 );
 
-Handler modeStopPointLinesHandler = new Handler(
+Handler modeStopPointLinesHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeStopPointLinesPage(
+    return ModeStopPointLinesPage(
       modeName: params['modeName'].first,
       stopPointId: params['stopPointId'].first,
     );
   },
 );
 
-Handler modeStopPointsHandler = new Handler(
+Handler modeStopPointsHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModeStopPointsPage(
+    return ModeStopPointsPage(
       modeName: params['modeName'].first,
     );
   },
 );
 
-Handler modesHandler = new Handler(
+Handler modesHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new ModesPage();
+    return ModesPage();
   },
 );
 
-Handler notFoundHandler = new Handler(
+Handler notFoundHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
@@ -223,20 +223,20 @@ Handler notFoundHandler = new Handler(
   },
 );
 
-Handler rootHandler = new Handler(
+Handler rootHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new HomePage();
+    return HomePage();
   },
 );
 
-Handler settingsHandler = new Handler(
+Handler settingsHandler = Handler(
   handlerFunc: (
     BuildContext context,
     Map<String, List<String>> params,
   ) {
-    return new SettingsPage();
+    return SettingsPage();
   },
 );

@@ -11,9 +11,7 @@ class LoadingSpinnerFutureBuilder<T> extends FutureBuilder<T> {
     Key key,
   }) : super(
           builder: (BuildContext context, AsyncSnapshot<T> snapshot) =>
-              snapshot.hasData
-                  ? onComplete(snapshot.data)
-                  : new LoadingSpinner(),
+              snapshot.hasData ? onComplete(snapshot.data) : LoadingSpinner(),
           future: future,
           key: key,
         );

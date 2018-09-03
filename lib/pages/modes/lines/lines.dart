@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/line.dart';
 import 'package:transport_for_london/services/line.dart';
 import 'package:transport_for_london/widgets/lines/list_tile.dart';
@@ -15,12 +15,12 @@ class ModeLinesPage extends StatefulWidget {
   final String modeName;
 
   @override
-  State<StatefulWidget> createState() => new _ModeLinesPageState();
+  State<StatefulWidget> createState() => _ModeLinesPageState();
 }
 
 class _ModeLinesPageState extends State<ModeLinesPage> {
   _ModeLinesPageState() {
-    _lineService = new DependencyInjector().lineService;
+    _lineService = ServiceLocator().lineService;
   }
 
   LineService _lineService;
@@ -30,7 +30,7 @@ class _ModeLinesPageState extends State<ModeLinesPage> {
     if (_lines != null) {
       return _buildLinesListView();
     } else {
-      return new LoadingSpinnerFutureBuilder<List<Line>>(
+      return LoadingSpinnerFutureBuilder<List<Line>>(
         _lineService.getLinesByModeName(widget.modeName),
         (lines) {
           _lines = lines;
@@ -42,9 +42,9 @@ class _ModeLinesPageState extends State<ModeLinesPage> {
   }
 
   Widget _buildLinesListView() {
-    return new ListView.builder(
+    return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
-        return new LineListTile(
+        return LineListTile(
           _lines[index],
           onTap: () {
             App.router.navigateTo(
@@ -60,9 +60,9 @@ class _ModeLinesPageState extends State<ModeLinesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Lines'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Lines'),
       ),
       body: _buildLines(),
     );

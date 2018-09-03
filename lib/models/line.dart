@@ -6,7 +6,7 @@ import 'package:transport_for_london/models/line_status.dart';
 part 'line.g.dart';
 
 @JsonSerializable()
-class Line extends Object with _$LineSerializerMixin {
+class Line {
   Line({
     this.id,
     this.name,
@@ -33,5 +33,9 @@ class Line extends Object with _$LineSerializerMixin {
 
   factory Line.fromJson(Map<String, dynamic> json) {
     return _$LineFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$LineToJson(this);
   }
 }

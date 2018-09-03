@@ -12,9 +12,9 @@ class MockRepoFactory implements RepoFactory {
   StopPointRepo _stopPointRepo;
 
   MockRepoFactory() {
-    _bikePointRepo = new MockBikePointRepo();
-    _lineRepo = new MockLineRepo();
-    _stopPointRepo = new MockStopPointRepo();
+    _bikePointRepo = MockBikePointRepo();
+    _lineRepo = MockLineRepo();
+    _stopPointRepo = MockStopPointRepo();
   }
 
   @override

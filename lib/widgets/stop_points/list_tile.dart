@@ -13,10 +13,10 @@ class StopPointListTile extends ListTile {
           onTap: onTap,
           subtitle: subtitle,
           title: stopPoint.indicator != null
-              ? new SingleLineText(
+              ? SingleLineText(
                   '${stopPoint.commonName} - ${stopPoint.indicator}',
                 )
-              : new SingleLineText(
+              : SingleLineText(
                   stopPoint.commonName,
                 ),
         );

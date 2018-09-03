@@ -9,12 +9,12 @@ class StatusListTile extends ListTile {
   }) : super(
           isThreeLine: true,
           key: key,
-          subtitle: new Text(
+          subtitle: Text(
             status.reason ?? '',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          title: new SingleLineText(
+          title: SingleLineText(
             status.statusSeverityDescription ?? '',
           ),
         );

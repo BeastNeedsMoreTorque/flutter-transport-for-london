@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/favourite.dart';
 import 'package:transport_for_london/models/stop_point.dart';
 import 'package:transport_for_london/services/preference.dart';
@@ -23,13 +23,13 @@ class ModeStopPointPage extends StatefulWidget {
   final String stopPointId;
 
   @override
-  State<StatefulWidget> createState() => new _ModeStopPointPageState();
+  State<StatefulWidget> createState() => _ModeStopPointPageState();
 }
 
 class _ModeStopPointPageState extends State<ModeStopPointPage> {
   _ModeStopPointPageState() {
-    _preferenceService = new DependencyInjector().preferenceService;
-    _stopPointService = new DependencyInjector().stopPointService;
+    _preferenceService = ServiceLocator().preferenceService;
+    _stopPointService = ServiceLocator().stopPointService;
   }
 
   List<Favourite> _favourites;
@@ -38,12 +38,12 @@ class _ModeStopPointPageState extends State<ModeStopPointPage> {
   StopPointService _stopPointService;
 
   Widget _buildFavouriteIconButton() {
-    Favourite favourite = new Favourite(
+    Favourite favourite = Favourite(
       name: _stopPoint.commonName,
       path: '/modes/${widget.modeName}/stop_points/${widget.stopPointId}',
     );
 
-    return new FavouriteIconButton(
+    return FavouriteIconButton(
       doFavouritesContainPath(_favourites, favourite.path),
       () async {
         _favourites = toggleFavourite(_favourites, favourite);
@@ -56,33 +56,33 @@ class _ModeStopPointPageState extends State<ModeStopPointPage> {
   }
 
   Widget _buildModeStopPoint() {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         actions: <Widget>[
           _buildFavouriteIconButton(),
         ],
-        title: new Text(_stopPoint.commonName),
+        title: Text(_stopPoint.commonName),
       ),
-      body: new ListView(
+      body: ListView(
         children: <Widget>[
           _buildModeStopPointListTile(
             'Arrivals',
-            new Icon(Icons.rss_feed),
+            Icon(Icons.rss_feed),
             '/modes/${widget.modeName}/stop_points/${widget.stopPointId}/arrivals',
           ),
           _buildModeStopPointListTile(
             'Children',
-            new Icon(Icons.supervisor_account),
+            Icon(Icons.supervisor_account),
             '/modes/${widget.modeName}/stop_points/${widget.stopPointId}/children',
           ),
           _buildModeStopPointListTile(
             'Information',
-            new Icon(Icons.info),
+            Icon(Icons.info),
             '/modes/${widget.modeName}/stop_points/${widget.stopPointId}/additional_properties',
           ),
           _buildModeStopPointListTile(
             'Lines',
-            new Icon(Icons.reorder),
+            Icon(Icons.reorder),
             '/modes/${widget.modeName}/stop_points/${widget.stopPointId}/lines',
           ),
         ],
@@ -91,10 +91,10 @@ class _ModeStopPointPageState extends State<ModeStopPointPage> {
   }
 
   Widget _buildModeStopPointListTile(String title, Icon icon, String path) {
-    return new ListTile(
+    return ListTile(
       leading: icon,
       onTap: () => App.router.navigateTo(context, path),
-      title: new Text(title),
+      title: Text(title),
     );
   }
 
@@ -103,7 +103,7 @@ class _ModeStopPointPageState extends State<ModeStopPointPage> {
     if (_favourites != null && _stopPoint != null) {
       return _buildModeStopPoint();
     } else {
-      return new ScaffoldFutureBuilder<List>(
+      return ScaffoldFutureBuilder<List>(
         Future.wait([
           _preferenceService.getFavourites(),
           _stopPointService.getStopPointByStopPointId(widget.stopPointId),
@@ -114,8 +114,8 @@ class _ModeStopPointPageState extends State<ModeStopPointPage> {
 
           return _buildModeStopPoint();
         },
-        new LoadingSpinnerScaffold(
-          appBar: new AppBar(),
+        LoadingSpinnerScaffold(
+          appBar: AppBar(),
         ),
       );
     }

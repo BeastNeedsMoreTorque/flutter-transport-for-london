@@ -11,12 +11,12 @@ class BikePointListTile extends PlaceListTile {
           bikePoint,
           key: key,
           onTap: onTap,
-          trailing: new Text(
+          trailing: Text(
             '${bikePoint.additionalProperties.firstWhere(
-            (additionalProperty) => additionalProperty.key == 'NbBikes',
-    ).value} / ${bikePoint.additionalProperties.firstWhere(
-            (additionalProperty) => additionalProperty.key == 'NbDocks',
-    ).value}',
+                  (additionalProperty) => additionalProperty.key == 'NbBikes',
+                ).value} / ${bikePoint.additionalProperties.firstWhere(
+                  (additionalProperty) => additionalProperty.key == 'NbDocks',
+                ).value}',
           ),
         );
 }

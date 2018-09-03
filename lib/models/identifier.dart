@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'identifier.g.dart';
 
 @JsonSerializable()
-class Identifier extends Object with _$IdentifierSerializerMixin {
+class Identifier {
   Identifier({
     this.id,
     this.name,
@@ -20,5 +20,9 @@ class Identifier extends Object with _$IdentifierSerializerMixin {
 
   factory Identifier.fromJson(Map<String, dynamic> json) {
     return _$IdentifierFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$IdentifierToJson(this);
   }
 }

@@ -12,7 +12,6 @@ class ConfigurationStore extends Store {
   String get stopPointBeingEdited => _stopPointBeingEdited;
 }
 
-final StoreToken configurationStoreToken =
-    new StoreToken(new ConfigurationStore());
+final StoreToken configurationStoreToken = StoreToken(ConfigurationStore());
 
-final Action<String> selectStopPointBeingEdited = new Action<String>();
+final Action<String> selectStopPointBeingEdited = Action<String>();

@@ -3,26 +3,23 @@
 part of 'validity_period.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-ValidityPeriod _$ValidityPeriodFromJson(Map<String, dynamic> json) =>
-    new ValidityPeriod(
-        fromDate: json['fromDate'] == null
-            ? null
-            : DateTime.parse(json['fromDate'] as String),
-        toDate: json['toDate'] == null
-            ? null
-            : DateTime.parse(json['toDate'] as String),
-        isNow: json['isNow'] as bool);
-
-abstract class _$ValidityPeriodSerializerMixin {
-  DateTime get fromDate;
-  DateTime get toDate;
-  bool get isNow;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'fromDate': fromDate?.toIso8601String(),
-        'toDate': toDate?.toIso8601String(),
-        'isNow': isNow
-      };
+ValidityPeriod _$ValidityPeriodFromJson(Map<String, dynamic> json) {
+  return ValidityPeriod(
+      fromDate: json['fromDate'] == null
+          ? null
+          : DateTime.parse(json['fromDate'] as String),
+      toDate: json['toDate'] == null
+          ? null
+          : DateTime.parse(json['toDate'] as String),
+      isNow: json['isNow'] as bool);
 }
+
+Map<String, dynamic> _$ValidityPeriodToJson(ValidityPeriod instance) =>
+    <String, dynamic>{
+      'fromDate': instance.fromDate?.toIso8601String(),
+      'toDate': instance.toDate?.toIso8601String(),
+      'isNow': instance.isNow
+    };

@@ -7,7 +7,7 @@ import 'package:transport_for_london/models/line_mode_group.dart';
 part 'stop_point.g.dart';
 
 @JsonSerializable()
-class StopPoint extends Object with _$StopPointSerializerMixin {
+class StopPoint {
   StopPoint({
     this.naptanId,
     this.indicator,
@@ -52,5 +52,9 @@ class StopPoint extends Object with _$StopPointSerializerMixin {
 
   factory StopPoint.fromJson(Map<String, dynamic> json) {
     return _$StopPointFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$StopPointToJson(this);
   }
 }

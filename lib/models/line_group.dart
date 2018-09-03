@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'line_group.g.dart';
 
 @JsonSerializable()
-class LineGroup extends Object with _$LineGroupSerializerMixin {
+class LineGroup {
   LineGroup({
     this.stationAtcoCode,
     this.lineIdentifier,
@@ -14,5 +14,9 @@ class LineGroup extends Object with _$LineGroupSerializerMixin {
 
   factory LineGroup.fromJson(Map<String, dynamic> json) {
     return _$LineGroupFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$LineGroupToJson(this);
   }
 }

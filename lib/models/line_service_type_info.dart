@@ -3,8 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'line_service_type_info.g.dart';
 
 @JsonSerializable()
-class LineServiceTypeInfo extends Object
-    with _$LineServiceTypeInfoSerializerMixin {
+class LineServiceTypeInfo {
   LineServiceTypeInfo({this.name, this.uri});
 
   String name;
@@ -12,5 +11,9 @@ class LineServiceTypeInfo extends Object
 
   factory LineServiceTypeInfo.fromJson(Map<String, dynamic> json) {
     return _$LineServiceTypeInfoFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$LineServiceTypeInfoToJson(this);
   }
 }

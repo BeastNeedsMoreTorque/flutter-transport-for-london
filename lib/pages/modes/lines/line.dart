@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:transport_for_london/config/app.dart';
-import 'package:transport_for_london/injectors/dependency.dart';
+import 'package:transport_for_london/locators/service.dart';
 import 'package:transport_for_london/models/favourite.dart';
 import 'package:transport_for_london/models/line.dart';
 import 'package:transport_for_london/services/line.dart';
@@ -23,13 +23,13 @@ class ModeLinePage extends StatefulWidget {
   final String modeName;
 
   @override
-  State<StatefulWidget> createState() => new _ModeLinePageState();
+  State<StatefulWidget> createState() => _ModeLinePageState();
 }
 
 class _ModeLinePageState extends State<ModeLinePage> {
   _ModeLinePageState() {
-    _lineService = new DependencyInjector().lineService;
-    _preferenceService = new DependencyInjector().preferenceService;
+    _lineService = ServiceLocator().lineService;
+    _preferenceService = ServiceLocator().preferenceService;
   }
 
   List<Favourite> _favourites;
@@ -38,12 +38,12 @@ class _ModeLinePageState extends State<ModeLinePage> {
   PreferenceService _preferenceService;
 
   Widget _buildFavouriteIconButton() {
-    Favourite favourite = new Favourite(
+    Favourite favourite = Favourite(
       name: _line.name,
       path: '/modes/${widget.modeName}/lines/${widget.lineId}',
     );
 
-    return new FavouriteIconButton(
+    return FavouriteIconButton(
       doFavouritesContainPath(_favourites, favourite.path),
       () async {
         _favourites = toggleFavourite(_favourites, favourite);
@@ -56,28 +56,28 @@ class _ModeLinePageState extends State<ModeLinePage> {
   }
 
   Widget _buildModeLine() {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         actions: <Widget>[
           _buildFavouriteIconButton(),
         ],
-        title: new Text(_line.name),
+        title: Text(_line.name),
       ),
-      body: new ListView(
+      body: ListView(
         children: <Widget>[
           _buildModeLineListTile(
             'Routes',
-            new Icon(Icons.directions),
+            Icon(Icons.directions),
             '/modes/${widget.modeName}/lines/${widget.lineId}/routes',
           ),
           _buildModeLineListTile(
             'Statuses',
-            new Icon(Icons.warning),
+            Icon(Icons.warning),
             '/modes/${widget.modeName}/lines/${widget.lineId}/statuses',
           ),
           _buildModeLineListTile(
             'Stop Points',
-            new Icon(Icons.place),
+            Icon(Icons.place),
             '/modes/${widget.modeName}/lines/${widget.lineId}/stop_points',
           ),
         ],
@@ -86,10 +86,10 @@ class _ModeLinePageState extends State<ModeLinePage> {
   }
 
   Widget _buildModeLineListTile(String title, Icon icon, String path) {
-    return new ListTile(
+    return ListTile(
       leading: icon,
       onTap: () => App.router.navigateTo(context, path),
-      title: new Text(title),
+      title: Text(title),
     );
   }
 
@@ -98,7 +98,7 @@ class _ModeLinePageState extends State<ModeLinePage> {
     if (_favourites != null && _line != null) {
       return _buildModeLine();
     } else {
-      return new ScaffoldFutureBuilder<List>(
+      return ScaffoldFutureBuilder<List>(
         Future.wait([
           _preferenceService.getFavourites(),
           _lineService.getLineByLineId(widget.lineId),
@@ -109,8 +109,8 @@ class _ModeLinePageState extends State<ModeLinePage> {
 
           return _buildModeLine();
         },
-        new LoadingSpinnerScaffold(
-          appBar: new AppBar(),
+        LoadingSpinnerScaffold(
+          appBar: AppBar(),
         ),
       );
     }

@@ -3,15 +3,14 @@
 part of 'line_service_type_info.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-LineServiceTypeInfo _$LineServiceTypeInfoFromJson(Map<String, dynamic> json) =>
-    new LineServiceTypeInfo(
-        name: json['name'] as String, uri: json['uri'] as String);
-
-abstract class _$LineServiceTypeInfoSerializerMixin {
-  String get name;
-  String get uri;
-  Map<String, dynamic> toJson() => <String, dynamic>{'name': name, 'uri': uri};
+LineServiceTypeInfo _$LineServiceTypeInfoFromJson(Map<String, dynamic> json) {
+  return LineServiceTypeInfo(
+      name: json['name'] as String, uri: json['uri'] as String);
 }
+
+Map<String, dynamic> _$LineServiceTypeInfoToJson(
+        LineServiceTypeInfo instance) =>
+    <String, dynamic>{'name': instance.name, 'uri': instance.uri};

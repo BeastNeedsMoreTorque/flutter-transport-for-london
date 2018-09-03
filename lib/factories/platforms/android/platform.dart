@@ -9,7 +9,7 @@ class AndroidPlatformFactory implements PlatformFactory {
   final AppPlatform _platform;
 
   AndroidPlatformFactory(this._platform) {
-    _platformService = new AndroidPlatformService(_platform);
+    _platformService = AndroidPlatformService(_platform);
   }
 
   @override

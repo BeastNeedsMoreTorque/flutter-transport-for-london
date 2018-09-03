@@ -8,7 +8,7 @@ class RouteListTile extends ListTile {
     Key key,
   }) : super(
           key: key,
-          subtitle: new SingleLineText('to ${route.destinationName}'),
-          title: new SingleLineText(route.originationName),
+          subtitle: SingleLineText('to ${route.destinationName}'),
+          title: SingleLineText(route.originationName),
         );
 }
